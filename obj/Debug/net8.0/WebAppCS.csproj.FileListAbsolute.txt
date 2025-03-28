@@ -38,3 +38,5 @@ D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\WebAppCS.pdb
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\WebAppCS.genruntimeconfig.cache
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\ref\WebAppCS.dll
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\WebAppCS.sourcelink.json
+D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\wwwroot\plugins\daterangepicker\bower.json
+D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\wwwroot\plugins\raphael\bower.json
