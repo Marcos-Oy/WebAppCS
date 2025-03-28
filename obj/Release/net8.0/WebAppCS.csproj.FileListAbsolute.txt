@@ -31,3 +31,4 @@ D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Release\net8.0\refint\WebAp
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Release\net8.0\WebAppCS.pdb
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Release\net8.0\WebAppCS.genruntimeconfig.cache
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Release\net8.0\ref\WebAppCS.dll
+D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Release\net8.0\WebAppCS.sourcelink.json
