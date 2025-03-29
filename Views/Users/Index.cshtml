@@ -1,0 +1,102 @@
+@{
+    ViewData["SubTitle"] = "Usuarios";
+    Layout = "_Layout";
+}
+
+<!-- DataTables -->
+<link rel="stylesheet" href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <div class="content">
+
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Usuarios <a href="@Url.Action("Create","Users")" class="btn btn-success"><i class="fas fa-plus"></i></a></h1>
+                        
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Starter Page</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.content-header -->
+
+        <div class="card">
+            @* <div class="card-header">
+            <h3 class="card-title">TÍTULO DE CARD</h3>
+        </div> *@
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="UsersTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>USUARIO</th>
+                            <th>NOMBRE APELLIDO</th>
+                            <th>EMAIL</th>
+                            <th>TELÉFONO</th>
+                            <th>ROL</th>
+                            <th>ESTADO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>admin</td>
+                            <td>Administrador</td>
+                            <td>administrador@webappcs.cl</td>
+                            <td>+56999999999</td>
+                            <td>Administrador</td>
+                            <td>Activo</td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="#" class="btn btn-info"><i class="fas fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>cportilla</td>
+                            <td>Cristian Portilla</td>
+                            <td>cristian.portilla@webappcs.cl</td>
+                            <td>+56999999999</td>
+                            <td>Administrador</td>
+                            <td>Activo</td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="#" class="btn btn-info"><i class="fas fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>USUARIO</th>
+                            <th>NOMBRE APELLIDO</th>
+                            <th>EMAIL</th>
+                            <th>TELÉFONO</th>
+                            <th>ROL</th>
+                            <th>ESTADO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+</div>
+
+<!-- DataTables -->
+<script src="~/plugins/datatables/jquery.dataTables.js"></script>
+<script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="~/js/UsersTable.js"></script>

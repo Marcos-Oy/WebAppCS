@@ -1,0 +1,121 @@
+@{
+    ViewData["SubTitle"] = "Usuarios";
+    Layout = "_Layout";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <div class="content">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Usuarios <a href="@Url.Action("Index","Users")" class="btn btn-secondary"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a></h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Starter Page</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.content-header -->
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-6">
+                    <!-- Input addon -->
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Crear usuarios</h3>
+                        </div>
+                        <form asp-action="Create" asp-controller="Usuarios" method="post">
+                        <div class="card-body">
+                            
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user-plus"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Nombre de usuario" required>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Nombre" required>
+                                    <input type="text" class="form-control" placeholder="Apellido" required>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <input type="email" class="form-control" placeholder="Correo electrónico" required>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Teléfono" required>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                    </div>
+                                    <select class="form-control" required>
+                                        <option value="">Seleccionar Rol</option>
+                                        <option value="1">Administrador</option>
+                                        <option value="2">Usuario</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user-check"></i></span>
+                                    </div>
+                                    <select class="form-control" required>
+                                        <option value="">Seleccionar Estado</option>
+                                        <option value="1">Activo</option>
+                                        <option value="0">Inactivo</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" placeholder="Contraseña" required>
+                                    <input type="password" class="form-control" placeholder="Repetir Contraseña"
+                                        required>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                    </div>
+                                    <input type="file" class="form-control" placeholder="Subir foto de perfil" required>
+                                </div>
+                                
+                            
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-info float-right">Crear Usuario</button>
+                            <button type="reset" class="btn btn-secondary">Limpiar</button>
+                        </div>
+                        <!-- /.card-footer -->
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
