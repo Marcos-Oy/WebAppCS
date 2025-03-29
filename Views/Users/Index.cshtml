@@ -15,12 +15,12 @@
                                 class="btn btn-success"><i class="fas fa-plus"></i></a></h1>
 
                     </div>
-                    <div class="col-sm-6">
+                    @* <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item active">Starter Page</li>
                         </ol>
-                    </div>
+                    </div> *@
                 </div>
             </div>
         </div>
@@ -65,7 +65,9 @@
                                 <div class="btn-group btn-group-sm">
                                     <a href="@Url.Action("Edit", "Users")" class="btn btn-info"><i
                                             class="fas fa-pen"></i></a>
-                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -80,7 +82,9 @@
                                 <div class="btn-group btn-group-sm">
                                     <a href="@Url.Action("Edit", "Users")" class="btn btn-info"><i
                                             class="fas fa-pen"></i></a>
-                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -102,6 +106,8 @@
         <!-- /.card-body -->
     </div>
 </div>
+
+<partial name="Partials/Modal" model="Model"  />
 
 <!-- DataTables -->
 <link rel="stylesheet" href="~/public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">

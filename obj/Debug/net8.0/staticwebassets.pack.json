@@ -289,12 +289,8 @@
       "PackagePath": "staticwebassets\\images\\LOGO.png"
     },
     {
-      "Id": "D:\\Users\\oyarz\\OneDrive\\Documents\\repos\\WebAppCS\\wwwroot\\js\\UsersTable.js",
-      "PackagePath": "staticwebassets\\js\\UsersTable.js"
-    },
-    {
-      "Id": "D:\\Users\\oyarz\\OneDrive\\Documents\\repos\\WebAppCS\\wwwroot\\js\\site.js",
-      "PackagePath": "staticwebassets\\js\\site.js"
+      "Id": "D:\\Users\\oyarz\\OneDrive\\Documents\\repos\\WebAppCS\\wwwroot\\js\\Tables\\UsersTable.js",
+      "PackagePath": "staticwebassets\\js\\Tables\\UsersTable.js"
     },
     {
       "Id": "D:\\Users\\oyarz\\OneDrive\\Documents\\repos\\WebAppCS\\wwwroot\\lib\\bootstrap\\LICENSE",
