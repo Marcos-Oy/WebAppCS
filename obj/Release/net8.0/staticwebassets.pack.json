@@ -277,6 +277,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\Users\\oyarz\\OneDrive\\Documents\\repos\\WebAppCS\\wwwroot\\images\\LOGO.png",
+      "PackagePath": "staticwebassets\\images\\LOGO.png"
+    },
+    {
       "Id": "D:\\Users\\oyarz\\OneDrive\\Documents\\repos\\WebAppCS\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

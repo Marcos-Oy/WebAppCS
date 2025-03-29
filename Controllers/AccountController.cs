@@ -28,8 +28,7 @@ namespace WebAppCS.Controllers
         [HttpPost] // Simula el submit del formulario
         public IActionResult FakeLogin()
         {
-            // Redirige directamente al Home SIN validar
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Dashboard");
         }
         
     }

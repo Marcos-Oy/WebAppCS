@@ -5661,6 +5661,88 @@
       ]
     },
     {
+      "Route": "images/LOGO.png",
+      "AssetFile": "images/LOGO.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "41755"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mhlKPBmQEUF3NGHT8g8g9cCUcDsdPITkBlsYqTZEvXg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Mar 2025 21:04:05 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-mhlKPBmQEUF3NGHT8g8g9cCUcDsdPITkBlsYqTZEvXg="
+        }
+      ]
+    },
+    {
+      "Route": "images/LOGO.q8y16wjd3s.png",
+      "AssetFile": "images/LOGO.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "41755"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mhlKPBmQEUF3NGHT8g8g9cCUcDsdPITkBlsYqTZEvXg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Mar 2025 21:04:05 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "q8y16wjd3s"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-mhlKPBmQEUF3NGHT8g8g9cCUcDsdPITkBlsYqTZEvXg="
+        },
+        {
+          "Name": "label",
+          "Value": "images/LOGO.png"
+        }
+      ]
+    },
+    {
       "Route": "js/site.js",
       "AssetFile": "js/site.js",
       "Selectors": [],
