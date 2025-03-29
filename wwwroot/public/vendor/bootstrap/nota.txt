@@ -1,0 +1,1 @@
+Del vendor de sb-admin sólo se usa lo necesario para el login, lo demás fue eliminado.

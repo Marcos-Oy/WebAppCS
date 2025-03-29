@@ -1,11 +1,5 @@
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\web.config
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\appsettings.Development.json
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\appsettings.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\appsettings.Development.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\appsettings.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\WebAppCS.deps.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\WebAppCS.runtimeconfig.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\WebAppCS.staticwebassets.endpoints.json
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\WebAppCS.staticwebassets.runtime.json
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\WebAppCS.staticwebassets.endpoints.json
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\WebAppCS.exe
@@ -38,5 +32,3 @@ D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\WebAppCS.pdb
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\WebAppCS.genruntimeconfig.cache
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\ref\WebAppCS.dll
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\WebAppCS.sourcelink.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\wwwroot\plugins\daterangepicker\bower.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\wwwroot\plugins\raphael\bower.json
