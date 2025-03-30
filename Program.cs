@@ -1,4 +1,9 @@
+using WebAppCS.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// 🔹 Agregar servicio de la base de datos
+builder.Services.AddSingleton<Database>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
