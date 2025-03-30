@@ -42,17 +42,16 @@ namespace WebAppCS.Controllers
             }
 
             // Mapear la fila de datos a un objeto de tipo 'Usuarios'
-            var usuario = new Usuarios
-            {
-                Id = dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Id"] as int? ?? 0,
-                Rut = dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Rut"]?.ToString() ?? string.Empty,
-                Nombre = dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Nombre"]?.ToString() ?? string.Empty,
-                Apellidos = dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Apellidos"]?.ToString() ?? string.Empty,
-                Email = dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Email"]?.ToString() ?? string.Empty,
-                Telefono = dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Telefono"]?.ToString() ?? string.Empty,
-                Id_rol = dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Id_rol"] as int? ?? 0,
-                Id_estado = dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Id_estado"] as int? ?? 0
-            };
+            var usuario = new Usuarios(
+                id: dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Id"] as int? ?? 0,
+                rut: dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Rut"]?.ToString() ?? string.Empty,
+                nombre: dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Nombre"]?.ToString() ?? string.Empty,
+                apellidos: dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Apellidos"]?.ToString() ?? string.Empty,
+                email: dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Email"]?.ToString() ?? string.Empty,
+                telefono: dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Telefono"]?.ToString() ?? string.Empty,
+                id_rol: dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Id_rol"] as int? ?? 0,
+                id_estado: dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Id_estado"] as int? ?? 0
+            );
 
             return View("~/Views/Users/Edit.cshtml", usuario);
         }
