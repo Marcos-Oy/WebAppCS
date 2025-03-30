@@ -70,11 +70,29 @@ namespace WebAppCS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(Usuarios model)
         {
-            // Validar el modelo
             if (!ModelState.IsValid)
             {
-                return View(model);
+                // 🔍 Muestra los errores de validación en la consola/logs
+                foreach (var key in ModelState.Keys)
+                {
+                    var errors = ModelState[key].Errors;
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"Error en {key}: {error.ErrorMessage}");
+                    }
+                }
+
+                return RedirectToAction("Edit", new { id = model.Id }); // 🛑 Asegúrate de devolver la misma vista para que se vean los errores
             }
+            
+            if (!ValidarRut(model.Rut))
+            {
+                ModelState.AddModelError("Rut", "El RUT ingresado no es válido.");
+                return RedirectToAction("Edit", new { id = model.Id });
+            }
+
+            // Formatear el RUT antes de guardarlo
+            model.Rut = FormatearRut(model.Rut);
 
             // Lógica para actualizar el usuario
             string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}', Id_rol = {model.Id_rol}, Id_estado = {model.Id_estado} WHERE Id = {model.Id}";
@@ -90,5 +108,54 @@ namespace WebAppCS.Controllers
             _database.EjecutarComando(query);
             return RedirectToAction("Index", "Users");
         }
+
+        public static bool ValidarRut(string rut)
+        {
+            rut = rut.Replace(".", "").Replace("-", "").ToUpper();
+            
+            if (rut.Length < 2) return false;
+
+            string digitoVerificador = rut[^1].ToString(); // Último carácter
+            string rutNumerico = rut[..^1]; // Todo excepto el último carácter
+
+            int suma = 0, multiplicador = 2;
+            
+            for (int i = rutNumerico.Length - 1; i >= 0; i--)
+            {
+                suma += (rutNumerico[i] - '0') * multiplicador;
+                multiplicador = (multiplicador == 7) ? 2 : multiplicador + 1;
+            }
+
+            int resto = suma % 11;
+            string digitoCalculado = (11 - resto) switch
+            {
+                11 => "0",
+                10 => "K",
+                _ => (11 - resto).ToString()
+            };
+
+            return digitoVerificador == digitoCalculado;
+        }
+
+        public static string FormatearRut(string rut)
+        {
+            rut = rut.Replace(".", "").Replace("-", "").ToUpper(); // Eliminar puntos y guion
+
+            if (rut.Length < 2) return rut;
+
+            string rutNumerico = rut.Substring(0, rut.Length - 1); // Todo excepto el último carácter
+            string digitoVerificador = rut.Substring(rut.Length - 1); // Último carácter
+
+            // Formatear el rut con puntos
+            string rutConPuntos = string.Empty;
+            for (int i = rutNumerico.Length; i > 0; i--)
+            {
+                rutConPuntos = rutNumerico[i - 1] + rutConPuntos;
+                if ((rutNumerico.Length - i) % 3 == 2 && i > 1) rutConPuntos = "." + rutConPuntos;
+            }
+
+            return rutConPuntos + "-" + digitoVerificador; // Devolver el rut con puntos y guion
+        }
+
     }
 }

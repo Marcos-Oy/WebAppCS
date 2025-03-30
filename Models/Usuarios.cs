@@ -4,41 +4,48 @@ namespace WebAppCS.Models
 {
     public class Usuarios
     {
-        [Key]
-        [Required(ErrorMessage = "El campo Id es obligatorio.")]
+        
         public int Id { get; set; }
+
 
         [Required(ErrorMessage = "El campo Rut es obligatorio.")]
         [StringLength(12, ErrorMessage = "El Rut no puede exceder los 12 caracteres.")]
-        [RegularExpression(@"^\d{1,8}-[0-9kK]{1}$", ErrorMessage = "El formato del Rut es inválido.")]
+        [RegularExpression(@"^\d{1,2}(\.?\d{3})*-?[0-9Kk]$", ErrorMessage = "El formato del Rut es inválido.")]
         public string Rut { get; set; }
+
 
         [Required(ErrorMessage = "El campo Nombre es obligatorio.")]
         [StringLength(50, ErrorMessage = "El Nombre no puede exceder los 50 caracteres.")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "El Nombre solo puede contener letras y espacios.")]
         public string Nombre { get; set; }
 
+
         [Required(ErrorMessage = "El campo Apellidos es obligatorio.")]
         [StringLength(50, ErrorMessage = "El Apellido no puede exceder los 50 caracteres.")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "El Apellido solo puede contener letras y espacios.")]
         public string Apellidos { get; set; }
+
 
         [Required(ErrorMessage = "El campo Email es obligatorio.")]
         [EmailAddress(ErrorMessage = "El formato del Email es inválido.")]
         [StringLength(100, ErrorMessage = "El Email no puede exceder los 100 caracteres.")]
         public string Email { get; set; }
 
+
         [Required(ErrorMessage = "El campo Teléfono es obligatorio.")]
         [StringLength(15, ErrorMessage = "El Teléfono no puede exceder los 15 caracteres.")]
         public string Telefono { get; set; }
+
 
         [Required(ErrorMessage = "El campo Rol es obligatorio.")]
         [Range(1, int.MaxValue, ErrorMessage = "Seleccione un Rol válido.")]
         public int Id_rol { get; set; }
 
+
         [Required(ErrorMessage = "El campo Estado es obligatorio.")]
         [Range(1, int.MaxValue, ErrorMessage = "Seleccione un Estado válido.")]
         public int Id_estado { get; set; }
+
 
         public Usuarios()
         {

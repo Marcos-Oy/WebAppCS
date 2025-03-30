@@ -1,5 +1,4 @@
 @model WebAppCS.Models.Usuarios
-
 @{
     ViewData["SubTitle"] = "Usuarios";
     Layout = "_Layout";
@@ -25,58 +24,78 @@
                             <h3 class="card-title">Editar usuario</h3>
                         </div>
 
-                        <form asp-action="Update" method="post">
-                            <input type="hidden" name="id" value="@Model.Id" />
+                        <form asp-action="Update" asp-controller="Users" method="post">
+                            <input type="hidden" name="Id" asp-for="Id" value="@Model.Id" />
+
                             <div class="card-body">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user-plus"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Rut" value="@Model.Rut" name="Rut" required>
+                                    <input type="text" class="form-control" placeholder="Rut" value="@Model.Rut" name="Rut" asp-for="Rut" required> 
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Rut" class="text-danger"></span>
+                                    </div>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Nombre" value="@Model.Nombre" name="Nombre" required>
-                                    <input type="text" class="form-control" placeholder="Apellidos" value="@Model.Apellidos" name="Apellidos" required>
+                                    <input type="text" class="form-control" placeholder="Nombre" value="@Model.Nombre" name="Nombre" asp-for="Nombre" required>
+                                    <input type="text" class="form-control" placeholder="Apellidos" value="@Model.Apellidos" name="Apellidos" asp-for="Apellidos" required>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                                        <span asp-validation-for="Apellidos" class="text-danger"></span>
+                                    </div>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                     </div>
-                                    <input type="email" class="form-control" placeholder="Correo electrónico" value="@Model.Email" name="Email" required>
+                                    <input type="email" class="form-control" placeholder="Correo electrónico" value="@Model.Email" name="Email" asp-for="Email" required>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Teléfono" value="@Model.Telefono" name="Telefono" required>
+                                    <input type="text" class="form-control" placeholder="Teléfono" value="@Model.Telefono" name="Telefono" asp-for="Telefono" required>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                                    </div>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
                                     </div>
-                                    <select class="form-control" name="Id_rol" required>
-                                    <option value="">Seleccionar Rol</option>
-                                    @if (Model.Id_rol == 1){<option value="1" selected>Administrador</option>}else{<option value="1">Administrador</option>}
-                                    @if (Model.Id_rol == 2){<option value="2" selected>Usuario</option>}else{<option value="2">Usuario</option>}
-                                </select>
+                                    <select class="form-control" name="Id_rol" asp-for="Id_rol" required>
+                                        <option value="">Seleccionar Rol</option>
+                                        @if (Model.Id_rol == 1){<option value="1" selected>Administrador</option>}else{<option value="1">Administrador</option>}
+                                        @if (Model.Id_rol == 2){<option value="2" selected>Usuario</option>}else{<option value="2">Usuario</option>}
+                                    </select>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Id_rol" class="text-danger"></span>
+                                    </div>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user-check"></i></span>
                                     </div>
-                                    <select class="form-control" name="Id_estado" required>
+                                    <select class="form-control" name="Id_estado" asp-for="Id_estado" required>
                                         <option value="">Seleccionar Estado</option>
                                         @if (Model.Id_estado == 1){<option value="1" selected>Activo</option>}else{<option value="1">Activo</option>}
                                         @if (Model.Id_estado == 2){<option value="2" selected>Inactivo</option>}else{<option value="2">Inactivo</option>}
                                     </select>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Id_estado" class="text-danger"></span>
+                                    </div>
                                 </div>
 
                                 @* <div class="input-group mb-3">
@@ -98,3 +117,6 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
