@@ -32,14 +32,6 @@ D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\WebAppCS.pdb
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\WebAppCS.genruntimeconfig.cache
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\ref\WebAppCS.dll
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\obj\Debug\net8.0\WebAppCS.sourcelink.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\web.config
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\appsettings.Development.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\appsettings.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\WebAppCS.deps.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\WebAppCS.runtimeconfig.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\WebAppCS.staticwebassets.endpoints.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\wwwroot\dist\js\.eslintrc.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\publish\wwwroot\public\dist\js\.eslintrc.json
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\Google.Protobuf.dll
 D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\bin\Debug\net8.0\K4os.Compression.LZ4.dll

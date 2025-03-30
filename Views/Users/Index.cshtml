@@ -68,8 +68,7 @@
                             <td>@row["id_estado"]</td>
                             <td>
                                 <div class="btn-group btn-group-sm">
-                                    <a href="@Url.Action("Edit", "Users")" class="btn btn-info"><i
-                                            class="fas fa-pen"></i></a>
+                                    <a href="@Url.Action("Edit", "Users", new { id = row["Id"] })" class="btn btn-info"><i class="fas fa-pen"></i></a>
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
                                         <i class="fas fa-trash"></i>
                                     </button>
