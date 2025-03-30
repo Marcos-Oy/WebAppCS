@@ -82,12 +82,13 @@ namespace WebAppCS.Controllers
                     }
                 }
 
-                return RedirectToAction("Edit", new { id = model.Id }); // 🛑 Asegúrate de devolver la misma vista para que se vean los errores
+                return RedirectToAction("Edit", new { id = model.Id });
             }
             
             if (!ValidarRut(model.Rut))
             {
-                ModelState.AddModelError("Rut", "El RUT ingresado no es válido.");
+                // Guardar el error en TempData
+                TempData["RutError"] = "El RUT ingresado no es válido.";
                 return RedirectToAction("Edit", new { id = model.Id });
             }
 
@@ -115,6 +116,9 @@ namespace WebAppCS.Controllers
             
             if (rut.Length < 2) return false;
 
+            // Verificar que el RUT no sea un valor genérico o inventado
+            if (rut == "777777777") return false;  // Ejemplo de un RUT repetitivo o "inventado"
+            
             string digitoVerificador = rut[^1].ToString(); // Último carácter
             string rutNumerico = rut[..^1]; // Todo excepto el último carácter
 
@@ -136,6 +140,7 @@ namespace WebAppCS.Controllers
 
             return digitoVerificador == digitoCalculado;
         }
+
 
         public static string FormatearRut(string rut)
         {

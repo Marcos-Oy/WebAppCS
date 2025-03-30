@@ -35,6 +35,7 @@
                                     <input type="text" class="form-control" placeholder="Rut" value="@Model.Rut" name="Rut" asp-for="Rut" required> 
                                     <div class="input-group"> 
                                         <span asp-validation-for="Rut" class="text-danger"></span>
+                                        @if (TempData["RutError"] != null){<div class="text-danger">@TempData["RutError"]</div>}
                                     </div>
                                 </div>
 

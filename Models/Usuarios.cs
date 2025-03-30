@@ -10,7 +10,7 @@ namespace WebAppCS.Models
 
         [Required(ErrorMessage = "El campo Rut es obligatorio.")]
         [StringLength(12, ErrorMessage = "El Rut no puede exceder los 12 caracteres.")]
-        [RegularExpression(@"^\d{1,2}(\.?\d{3})*-?[0-9Kk]$", ErrorMessage = "El formato del Rut es inválido.")]
+        [RegularExpression(@"^\d{1,2}(\.?\d{3})*-?[0-9Kk]$", ErrorMessage = "El formato del RUT es inválido.")]
         public string Rut { get; set; }
 
 
@@ -33,7 +33,8 @@ namespace WebAppCS.Models
 
 
         [Required(ErrorMessage = "El campo Teléfono es obligatorio.")]
-        [StringLength(15, ErrorMessage = "El Teléfono no puede exceder los 15 caracteres.")]
+        [StringLength(20, ErrorMessage = "El Teléfono no puede exceder los 20 caracteres.")]
+        [RegularExpression(@"^(\+?(\d{1,4}))?(\s?(\(?\d{1,4}\)?))?[\s\-]?\d{6,10}$", ErrorMessage = "El formato del Teléfono no es válido.")]
         public string Telefono { get; set; }
 
 
