@@ -12,7 +12,12 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-danger">Eliminar</button>
+
+                <form id="deleteForm" method="post" action="@Url.Action("Delete", "Users")">
+                    <input type="hidden" name="id" id="userId">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+
             </div>
         </div>
     </div>

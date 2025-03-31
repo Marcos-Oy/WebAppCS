@@ -1,121 +1,125 @@
+@model WebAppCS.Models.Usuarios
 @{
     ViewData["SubTitle"] = "Usuarios";
     Layout = "_Layout";
 }
 
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <div class="content">
-
-        <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0 text-dark">Usuarios <a href="@Url.Action("Index","Users")" class="btn btn-secondary"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a></h1>
                     </div>
-                    @* <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Starter Page</li>
-                        </ol>
-                    </div> *@
                 </div>
             </div>
         </div>
-        <!-- /.content-header -->
+
         <div class="container-fluid">
             <div class="row">
-                <!-- left column -->
                 <div class="col-md-6">
-                    <!-- Input addon -->
                     <div class="card card-info">
                         <div class="card-header">
                             <h3 class="card-title">Editar usuario</h3>
                         </div>
-                        <form asp-action="Create" asp-controller="Usuarios" method="post">
-                        <div class="card-body">
-                            
+
+                        <form asp-action="Update" asp-controller="Users" method="post">
+                            <input type="hidden" name="Id" asp-for="Id" value="@Model.Id" />
+
+                            <div class="card-body">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user-plus"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Nombre de usuario" required>
+                                    <input type="text" class="form-control" placeholder="Rut" value="@Model.Rut" name="Rut" asp-for="Rut" required> 
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Rut" class="text-danger"></span>
+                                        @if (TempData["RutError"] != null){<div class="text-danger">@TempData["RutError"]</div>}
+                                    </div>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Nombre" required>
-                                    <input type="text" class="form-control" placeholder="Apellido" required>
+                                    <input type="text" class="form-control" placeholder="Nombre" value="@Model.Nombre" name="Nombre" asp-for="Nombre" required>
+                                    <input type="text" class="form-control" placeholder="Apellidos" value="@Model.Apellidos" name="Apellidos" asp-for="Apellidos" required>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                                    </div>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Apellidos" class="text-danger"></span>
+                                    </div>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                     </div>
-                                    <input type="email" class="form-control" placeholder="Correo electrónico" required>
+                                    <input type="email" class="form-control" placeholder="Correo electrónico" value="@Model.Email" name="Email" asp-for="Email" required>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Teléfono" required>
+                                    <input type="text" class="form-control" placeholder="Teléfono" value="@Model.Telefono" name="Telefono" asp-for="Telefono" required>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                                    </div>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
                                     </div>
-                                    <select class="form-control" required>
+                                    <select class="form-control" name="Id_rol" asp-for="Id_rol" required>
                                         <option value="">Seleccionar Rol</option>
-                                        <option value="1">Administrador</option>
-                                        <option value="2">Usuario</option>
+                                        @if (Model.Id_rol == 1){<option value="1" selected>Administrador</option>}else{<option value="1">Administrador</option>}
+                                        @if (Model.Id_rol == 2){<option value="2" selected>Usuario</option>}else{<option value="2">Usuario</option>}
                                     </select>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Id_rol" class="text-danger"></span>
+                                    </div>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user-check"></i></span>
                                     </div>
-                                    <select class="form-control" required>
+                                    <select class="form-control" name="Id_estado" asp-for="Id_estado" required>
                                         <option value="">Seleccionar Estado</option>
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
+                                        @if (Model.Id_estado == 1){<option value="1" selected>Activo</option>}else{<option value="1">Activo</option>}
+                                        @if (Model.Id_estado == 2){<option value="2" selected>Inactivo</option>}else{<option value="2">Inactivo</option>}
                                     </select>
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <div class="input-group"> 
+                                        <span asp-validation-for="Id_estado" class="text-danger"></span>
                                     </div>
-                                    <input type="password" class="form-control" placeholder="Contraseña" required>
-                                    <input type="password" class="form-control" placeholder="Repetir Contraseña"
-                                        required>
                                 </div>
 
-                                <div class="input-group mb-3">
+                                @* <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-image"></i></span>
                                     </div>
-                                    <input type="file" class="form-control" placeholder="Subir foto de perfil" required>
-                                </div>
-                                
-                            
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-info float-right">Salvar Cambios</button>
-                            <button type="reset" class="btn btn-secondary">Limpiar</button>
-                        </div>
-                        <!-- /.card-footer -->
+                                    <input type="file" class="form-control" name="FotoPerfil" placeholder="Subir foto de perfil" required>
+                                </div> *@
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-info float-right">Salvar Cambios</button>
+                                <button type="reset" class="btn btn-secondary">Resetear</button>
+                            </div>
                         </form>
                     </div>
-                    <!-- /.card -->
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
