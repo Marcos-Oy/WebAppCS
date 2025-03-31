@@ -7,7 +7,6 @@ namespace WebAppCS.Models
         
         public int Id { get; set; }
 
-
         [Required(ErrorMessage = "El campo Rut es obligatorio.")]
         [StringLength(12, ErrorMessage = "El Rut no puede exceder los 12 caracteres.")]
         [RegularExpression(@"^\d{1,2}(\.?\d{3})*-?[0-9Kk]$", ErrorMessage = "El formato del RUT es inválido.")]
@@ -47,6 +46,13 @@ namespace WebAppCS.Models
         [Range(1, int.MaxValue, ErrorMessage = "Seleccione un Estado válido.")]
         public int Id_estado { get; set; }
 
+        [Required(ErrorMessage = "La contraseña es obligatoria.")]
+        [StringLength(20, ErrorMessage = "La contraseña no puede exceder los 20 caracteres.")]
+        public string Password { get; set; }
+
+        [Required(ErrorMessage = "Repetir la contraseña es obligatorio.")]
+        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
+        public string RepeatPassword { get; set; }
 
         public Usuarios()
         {
@@ -55,6 +61,8 @@ namespace WebAppCS.Models
             Apellidos = string.Empty;
             Email = string.Empty;
             Telefono = string.Empty;
+            Password = string.Empty;
+            RepeatPassword = string.Empty;
         }
         
         public Usuarios(int id, string rut, string nombre, string apellidos, string email, string telefono, int id_rol, int id_estado)

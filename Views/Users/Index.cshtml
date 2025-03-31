@@ -69,7 +69,8 @@
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <a href="@Url.Action("Edit", "Users", new { id = row["Id"] })" class="btn btn-info"><i class="fas fa-pen"></i></a>
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger" 
+                                        onclick="document.getElementById('userId').value = '@row["id"]'">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using WebAppCS.Data;
 using WebAppCS.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace WebAppCS.Controllers
 {
@@ -58,10 +60,43 @@ namespace WebAppCS.Controllers
 
         // Acción POST: Crear un nuevo usuario
         [HttpPost]
-        public IActionResult Insert(string nombre, string email)
+        public IActionResult Insert(Usuarios model)
         {
-            string query = $"INSERT INTO Usuarios (Nombre, Email) VALUES ('{nombre}', '{email}')";
+            if (!ModelState.IsValid)
+            {
+                // 🔍 Muestra los errores de validación en la consola/logs
+                foreach (var key in ModelState.Keys)
+                {
+                    var errors = ModelState[key].Errors;
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"Error en {key}: {error.ErrorMessage}");
+                    }
+                }
+
+                return RedirectToAction("Create");
+            }
+
+            if (!ValidarRut(model.Rut))
+            {
+                // Guardar el error en TempData
+                TempData["RutError"] = "El RUT ingresado no es válido.";
+                return RedirectToAction("Create");
+            }
+
+            // Formatear el RUT antes de guardarlo
+            model.Rut = FormatearRut(model.Rut);
+
+                // Generar el hash MD5 de la contraseña
+            string passwordMD5 = GenerarMD5(model.Password);
+
+            // Consulta SQL con interpolación
+            string query = $"INSERT INTO Usuarios (Rut, Nombre, Apellidos, Email, Telefono, Id_rol, Id_estado, Password) " +
+                        $"VALUES ('{model.Rut}', '{model.Nombre}', '{model.Apellidos}', '{model.Email}', '{model.Telefono}', {model.Id_rol}, {model.Id_estado}, '{passwordMD5}')";
+
+            // Ejecutar el comando de inserción
             _database.EjecutarComando(query);
+
             return RedirectToAction("Index", "Users");
         }
         
@@ -70,6 +105,10 @@ namespace WebAppCS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(Usuarios model)
         {
+            // Eliminar la contraseña de ModelState para evitar que se valide
+            ModelState.Remove("Password");
+            ModelState.Remove("RepeatPassword");
+
             if (!ModelState.IsValid)
             {
                 // 🔍 Muestra los errores de validación en la consola/logs
@@ -141,7 +180,6 @@ namespace WebAppCS.Controllers
             return digitoVerificador == digitoCalculado;
         }
 
-
         public static string FormatearRut(string rut)
         {
             rut = rut.Replace(".", "").Replace("-", "").ToUpper(); // Eliminar puntos y guion
@@ -161,6 +199,21 @@ namespace WebAppCS.Controllers
 
             return rutConPuntos + "-" + digitoVerificador; // Devolver el rut con puntos y guion
         }
-
+    
+        // Función para generar el hash MD5
+        private string GenerarMD5(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString().ToLower(); // Para que el hash esté en minúsculas
+            }
+        }
     }
 }
