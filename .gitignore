@@ -9,4 +9,7 @@
 /obj/Debug/
 /obj/Debug/net8.0/
 
+**/obj/
+**/bin/
+
 *.cache
