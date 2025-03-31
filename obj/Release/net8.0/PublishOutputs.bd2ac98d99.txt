@@ -1,7 +1,0 @@
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\publish\WebAppCS.exe
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\publish\appsettings.Development.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\publish\appsettings.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\publish\WebAppCS.dll
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\publish\WebAppCS.deps.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\publish\WebAppCS.runtimeconfig.json
-D:\Users\oyarz\OneDrive\Documents\repos\WebAppCS\publish\WebAppCS.pdb
