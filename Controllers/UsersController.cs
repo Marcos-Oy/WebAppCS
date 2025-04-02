@@ -19,7 +19,12 @@ namespace WebAppCS.Controllers
         // Acción GET: Mostrar lista de usuarios
         public IActionResult Index()
         {
-            string query = "SELECT * FROM Usuarios";
+            string query = "SELECT u.id, u.rut, u.apellidos, u.nombre, u.email, u.telefono, e.estado, r.nombre as rol "
+            +"FROM Usuarios u "
+            +"JOIN Roles r ON u.id_rol = r.id "
+            +"JOIN Estados e ON u.id_estado = e.id "
+            +"WHERE e.pertenencia = 'usuarios'";
+            
             DataTable usuarios = _database.EjecutarConsulta(query);
             return View("~/Views/Users/Index.cshtml", usuarios); // Pasar la lista de usuarios a la vista
         }
