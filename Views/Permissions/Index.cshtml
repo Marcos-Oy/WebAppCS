@@ -64,12 +64,12 @@
                                     <a href="@Url.Action("PermissionsRole", "Permissions", new { id = row["Id"] })" class="btn btn-info"><i class="fa fa-list-alt"></i></a>
 
                                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-warning" 
-                                        onclick="document.getElementById('roleId').value = '@row["id"]'">
+                                        onclick="document.getElementById('roleEdit').value = '@row["id"]'; document.getElementById('rol').value = '@row["nombre"]';">
                                         <i class="fas fa-pen"></i>
                                     </button>
                                     
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger" 
-                                        onclick="document.getElementById('roleId').value = '@row["id"]'">
+                                        onclick="document.getElementById('roleDelete').value = '@row["id"]'">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -91,9 +91,15 @@
     </div>
 </div>
 
-<partial name="Partials/Modal-CreateRole" model="Model"  />
-<partial name="Partials/Modal-EditRole" model="Model"  />
-<partial name="Partials/Modal-DeleteRole" model="Model"  />
+<!-- Modals -->
+<partial name="Partials/Modal-CreateRole" model="ViewBag.RoleModel"  />
+<partial name="Partials/Modal-EditRole" model="ViewBag.RoleModel"  />
+<partial name="Partials/Modal-DeleteRole" model="ViewBag.RoleModel"  />
+
+<!-- Validaciones -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
 
 <!-- DataTables -->
 <link rel="stylesheet" href="~/public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
