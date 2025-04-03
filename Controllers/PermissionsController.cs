@@ -19,8 +19,41 @@ namespace WebAppCS.Controllers
             string query = "SELECT * FROM roles";
             DataTable roles = _database.EjecutarConsulta(query);
             ViewBag.Roles = roles;
-
+            ViewBag.RoleModel = new Roles();
             return View("~/Views/Permissions/Index.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult Insert(Roles model)
+        {
+            // Consulta SQL con interpolación
+            string query = $"INSERT INTO Roles (Nombre) VALUES ('{model.Nombre}')";
+            // Ejecutar el comando de inserción
+            _database.EjecutarComando(query);
+
+            return RedirectToAction("Index", "Permissions");
+        }
+
+        [HttpPost]
+        public IActionResult Update(Roles model)
+        {
+            if (!ModelState.IsValid) // Validar el modelo antes de proceder
+            {
+                return View("Index", model); // Regresa a la vista con los errores de validación
+            }
+            // Asegurar que el nombre esté entre comillas simples para evitar errores SQL
+            string query = $"UPDATE Roles SET nombre = '{model.Nombre}' WHERE Id = {model.Id}";
+            _database.EjecutarComando(query);
+
+            return RedirectToAction("Index", "Permissions");
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            string query = $"DELETE FROM Roles WHERE Id = {id}";
+            _database.EjecutarComando(query);
+            return RedirectToAction("Index", "Permissions");
         }
 
         [HttpGet]
