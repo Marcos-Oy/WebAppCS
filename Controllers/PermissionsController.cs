@@ -49,6 +49,14 @@ namespace WebAppCS.Controllers
 
                 string moduloRoles = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 2)";
                 _database.EjecutarComando(moduloRoles);
+
+                TempData["ToastrMessage"] = "Rol guardado correctamente";
+                TempData["ToastrType"] = "success"; // success | info | warning | error 
+            }
+            else
+            {
+                TempData["ToastrMessage"] = "Error al insertar el rol";
+                TempData["ToastrType"] = "error"; // success | info | warning | error
             }
 
             return RedirectToAction("Index", "Permissions");
@@ -65,6 +73,9 @@ namespace WebAppCS.Controllers
             string query = $"UPDATE Roles SET nombre = '{model.Nombre}' WHERE Id = {model.Id}";
             _database.EjecutarComando(query);
 
+            TempData["ToastrMessage"] = "Rol actualizado correctamente";
+            TempData["ToastrType"] = "success"; // success | info | warning | error 
+
             return RedirectToAction("Index", "Permissions");
         }
 
@@ -78,8 +89,8 @@ namespace WebAppCS.Controllers
             
             if(userCount >= 1)
             {
-                // Si hay usuarios asociados, no se puede eliminar el rol
-                TempData["Error"] = "No se puede eliminar el rol porque hay usuarios asociados a él.";
+                TempData["ToastrMessage"] = "No se puede eliminar el rol porque hay usuarios asociados a él.";
+                TempData["ToastrType"] = "error"; // success | info | warning | error 
             }
             else
             {
@@ -89,6 +100,9 @@ namespace WebAppCS.Controllers
 
                 string queryPermission = $"DELETE FROM Permisos WHERE id_rol = {id}";
                 _database.EjecutarComando(queryPermission);
+
+                TempData["ToastrMessage"] = "Rol eliminado correctamente";
+                TempData["ToastrType"] = "success"; // success | info | warning | error 
             }
 
             return RedirectToAction("Index", "Permissions");
@@ -146,10 +160,14 @@ namespace WebAppCS.Controllers
                 {
                     _database.EjecutarComando(query);
                     Console.WriteLine($"✅ Módulo {modulo} actualizado");
+                    TempData["ToastrMessage"] = "Permisos actualizados correctamente";
+                    TempData["ToastrType"] = "success"; // success | info | warning | error
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"❌ Error en {modulo}: {ex.Message}");
+                    TempData["ToastrMessage"] = "Error al actualizar permisos";
+                    TempData["ToastrType"] = "error"; // success | info | warning | error 
                 }
             }
 

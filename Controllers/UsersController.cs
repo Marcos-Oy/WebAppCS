@@ -125,9 +125,10 @@ namespace WebAppCS.Controllers
             // Consulta SQL con interpolación
             string query = $"INSERT INTO Usuarios (Rut, Nombre, Apellidos, Email, Telefono, Id_rol, Id_estado, Password) " +
                         $"VALUES ('{model.Rut}', '{model.Nombre}', '{model.Apellidos}', '{model.Email}', '{model.Telefono}', {model.Id_rol}, {model.Id_estado}, '{passwordMD5}')";
-
-            // Ejecutar el comando de inserción
             _database.EjecutarComando(query);
+
+            TempData["ToastrMessage"] = "Usuario creado correctamente";
+            TempData["ToastrType"] = "success"; // success | info | warning | error 
 
             return RedirectToAction("Index", "Users");
         }
@@ -172,6 +173,9 @@ namespace WebAppCS.Controllers
             string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}', Id_rol = {model.Id_rol}, Id_estado = {model.Id_estado} WHERE Id = {model.Id}";
             _database.EjecutarComando(query);
 
+            TempData["ToastrMessage"] = "Usuario actualizado correctamente";
+            TempData["ToastrType"] = "success"; // success | info | warning | error 
+
             return RedirectToAction("Index", "Users");
         }
 
@@ -211,6 +215,9 @@ namespace WebAppCS.Controllers
             string query = $"UPDATE Usuarios SET Password = '{passwordMD5}' WHERE Id = {model.Id}";
             _database.EjecutarComando(query);
 
+            TempData["ToastrMessage"] = "Contraseña actualizada correctamente";
+            TempData["ToastrType"] = "success"; // success | info | warning | error 
+
             return RedirectToAction("Index", "Users");
         }
 
@@ -219,6 +226,10 @@ namespace WebAppCS.Controllers
         {
             string query = $"DELETE FROM Usuarios WHERE Id = {id}";
             _database.EjecutarComando(query);
+
+            TempData["ToastrMessage"] = "Usuario borrado correctamente";
+            TempData["ToastrType"] = "success"; // success | info | warning | error 
+
             return RedirectToAction("Index", "Users");
         }
 
