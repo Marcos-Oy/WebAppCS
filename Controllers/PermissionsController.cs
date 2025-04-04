@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using WebAppCS.Data;
 using WebAppCS.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace WebAppCS.Controllers
 {
@@ -26,14 +28,18 @@ namespace WebAppCS.Controllers
         [HttpPost]
         public IActionResult Insert(Roles model)
         {
-            // Consulta SQL para insertar el rol
-            string insertQuery = $"INSERT INTO Roles (Nombre) VALUES ('{model.Nombre}')";
+            // Generar un hash único para esta inserción
+            string rawData = model.Nombre + DateTime.Now.Ticks;
+            string hash = GenerateSha256Hash(rawData);
+
+            // Insertar el rol con el hash
+            string insertQuery = $"INSERT INTO Roles (Nombre, Hash) VALUES ('{model.Nombre}', '{hash}')";
             _database.EjecutarComando(insertQuery);
 
-            // Obtener el último ID insertado
-            string selectQuery = "SELECT LAST_INSERT_ID();";
+            // Buscar el ID usando el hash
+            string selectQuery = $"SELECT id FROM Roles WHERE Hash = '{hash}'";
             DataTable resultTable = _database.EjecutarConsulta(selectQuery) as DataTable;
-            
+
             if (resultTable != null && resultTable.Rows.Count > 0)
             {
                 int insertedId = Convert.ToInt32(resultTable.Rows[0][0]);
@@ -41,7 +47,7 @@ namespace WebAppCS.Controllers
                 string moduloUsuario = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 1)";
                 _database.EjecutarComando(moduloUsuario);
 
-                string moduloProductos = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 1)";
+                string moduloProductos = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 2)";
                 _database.EjecutarComando(moduloProductos);
             }
 
@@ -49,7 +55,7 @@ namespace WebAppCS.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(Roles model)
+        public IActionResult UpdateRole(Roles model)
         {
             if (!ModelState.IsValid) // Validar el modelo antes de proceder
             {
@@ -78,7 +84,8 @@ namespace WebAppCS.Controllers
         public IActionResult PermissionsRole(int id)
         {
             string roles_query = $"SELECT nombre FROM roles where id='{id}'";
-            string permisos_query = $"select m.nombre as modulo, p.acceso, p.crear, p.editar, p.eliminar, p.desactivar from permisos p join modulos m on p.id_modulo = m.id where id_rol = '{id}'";
+            // Asegúrate de seleccionar p.id como "id" (sin alias)
+            string permisos_query = $"SELECT p.id, m.nombre as modulo, p.acceso, p.crear, p.editar, p.eliminar, p.desactivar FROM permisos p JOIN modulos m ON p.id_modulo = m.id WHERE id_rol = '{id}'";
             
             DataTable roles = _database.EjecutarConsulta(roles_query);
             DataTable permisos = _database.EjecutarConsulta(permisos_query);
@@ -87,6 +94,67 @@ namespace WebAppCS.Controllers
             ViewBag.Roles = roles;
 
             return View("~/Views/Permissions/Permissions.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult UpdatePermissions(Dictionary<string, Permisos> permisos)
+        {
+            if (permisos == null || permisos.Count == 0)
+            {
+                Console.WriteLine("Error: No se recibieron permisos");
+                return RedirectToAction("Index");
+            }
+
+            foreach (var item in permisos)
+            {
+                var modulo = item.Key;
+                var permiso = item.Value;
+
+                // Validación CRÍTICA para el ID
+                if (permiso.Id <= 0)
+                {
+                    Console.WriteLine($"ERROR: ID inválido ({permiso.Id}) para módulo {modulo}");
+                    continue; // Saltar este módulo
+                }
+
+                Console.WriteLine($"Actualizando módulo {modulo} (ID: {permiso.Id})");
+
+                string query = $@"
+                    UPDATE permisos 
+                    SET acceso = {(permiso.Acceso ? 1 : 0)},
+                        crear = {(permiso.Crear ? 1 : 0)},
+                        editar = {(permiso.Editar ? 1 : 0)},
+                        eliminar = {(permiso.Eliminar ? 1 : 0)},
+                        desactivar = {(permiso.Desactivar ? 1 : 0)}
+                    WHERE id = {permiso.Id}";
+
+                try
+                {
+                    _database.EjecutarComando(query);
+                    Console.WriteLine($"✅ Módulo {modulo} actualizado");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ Error en {modulo}: {ex.Message}");
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // Método para generar SHA256
+        private string GenerateSha256Hash(string input)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
         }
 
         

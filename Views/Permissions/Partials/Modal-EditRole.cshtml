@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="editForm" method="post" action="@Url.Action("Update", "Permissions")">
+            <form id="editForm" method="post" action="@Url.Action("UpdateRole", "Permissions")">
                 <div class="modal-body">
                     <input type="text" class="form-control" id="rol" asp-for="Nombre" placeholder="Rol" />
                     <span asp-validation-for="Nombre" class="text-danger"></span>

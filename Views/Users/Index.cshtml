@@ -46,7 +46,7 @@
                     class="table table-striped table-bordered table-condensed table-hover table-small-font">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            @* <th>ID</th> *@
                             <th>RUT</th>
                             <th>NOMBRE APELLIDO</th>
                             <th>EMAIL</th>
@@ -60,7 +60,7 @@
                         @foreach (System.Data.DataRow row in Model.Rows)
                         {
                         <tr>
-                            <td>@row["id"]</td>
+                            @* <td>@row["id"]</td> *@
                             <td>@row["rut"]</td>
                             <td>@row["nombre"] @row["apellidos"]</td>
                             <td>@row["email"]</td>
@@ -81,7 +81,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
+                            @* <th>ID</th> *@
                             <th>RUT</th>
                             <th>NOMBRE APELLIDO</th>
                             <th>EMAIL</th>
