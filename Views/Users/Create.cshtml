@@ -84,8 +84,9 @@
                                     </div>
                                     <select class="form-control" name="Id_rol" asp-for="Id_rol" required>
                                         <option value="" selected>Seleccionar Rol</option>
-                                        <option value="1" >Administrador</option>
-                                        <option value="2" >Usuario</option>
+                                        @foreach (System.Data.DataRow row in ViewBag.Roles.Rows){
+                                        <option value="@row["id"]">@row["nombre"]</option>
+                                        }
                                     </select>
                                     <div class="input-group"> 
                                         <span asp-validation-for="Id_rol" class="text-danger"></span>
@@ -98,8 +99,9 @@
                                     </div>
                                     <select class="form-control" name="Id_estado" asp-for="Id_estado" required>
                                         <option value="" selected>Seleccionar Estado</option>
-                                        <option value="1">Activo</option>
-                                        <option value="2">Inactivo</option>
+                                        @foreach (System.Data.DataRow row in ViewBag.Estados.Rows){
+                                        <option value="@row["id"]">@row["estado"]</option>
+                                        }
                                     </select>
                                     <div class="input-group"> 
                                         <span asp-validation-for="Id_estado" class="text-danger"></span>

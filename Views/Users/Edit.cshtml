@@ -88,8 +88,13 @@
                                     </div>
                                     <select class="form-control" name="Id_rol" asp-for="Id_rol" required>
                                         <option value="">Seleccionar Rol</option>
-                                        @if (Model.Id_rol == 1){<option value="1" selected>Administrador</option>}else{<option value="1">Administrador</option>}
-                                        @if (Model.Id_rol == 2){<option value="2" selected>Usuario</option>}else{<option value="2">Usuario</option>}
+                                        @foreach (System.Data.DataRow row in ViewBag.Roles.Rows){
+                                            @if (Model.Id_rol == Convert.ToInt32(@row["id"])){
+                                                <option value="@row["id"]" selected>@row["nombre"]</option>
+                                            }else{
+                                                <option value="@row["id"]">@row["nombre"]</option>
+                                            }
+                                        }
                                     </select>
                                     <div class="input-group"> 
                                         <span asp-validation-for="Id_rol" class="text-danger"></span>
@@ -102,8 +107,13 @@
                                     </div>
                                     <select class="form-control" name="Id_estado" asp-for="Id_estado" required>
                                         <option value="">Seleccionar Estado</option>
-                                        @if (Model.Id_estado == 1){<option value="1" selected>Activo</option>}else{<option value="1">Activo</option>}
-                                        @if (Model.Id_estado == 2){<option value="2" selected>Inactivo</option>}else{<option value="2">Inactivo</option>}
+                                        @foreach (System.Data.DataRow row in ViewBag.Estados.Rows){
+                                            @if (Model.Id_estado == Convert.ToInt32(@row["id"])){
+                                                <option value="@row["id"]" selected>@row["estado"]</option>
+                                            }else{
+                                                <option value="@row["id"]">@row["estado"]</option>
+                                            }
+                                        }
                                     </select>
                                     <div class="input-group"> 
                                         <span asp-validation-for="Id_estado" class="text-danger"></span>

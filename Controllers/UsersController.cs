@@ -32,6 +32,19 @@ namespace WebAppCS.Controllers
         // Acción GET: Mostrar formulario para crear un nuevo usuario
         public IActionResult Create()
         {
+            string queryEstados = @" SELECT e.id, e.estado
+            FROM Estados e
+            WHERE e.pertenencia = 'usuarios'";
+
+            string queryRoles = @" SELECT r.id, r.nombre, r.hash
+            FROM Roles r";
+            
+            DataTable estados = _database.EjecutarConsulta(queryEstados);
+            DataTable roles = _database.EjecutarConsulta(queryRoles);
+
+            ViewBag.Estados = estados;
+            ViewBag.Roles = roles;
+
             return View("~/Views/Users/Create.cshtml");
         }
 
@@ -40,8 +53,8 @@ namespace WebAppCS.Controllers
         public IActionResult Edit(int id)
         {
             // Obtener el usuario por su ID
-            string query = $"SELECT * FROM Usuarios WHERE Id = {id}";
-            DataTable dataTable = _database.EjecutarConsulta(query);
+            string queryUsuario = $"SELECT * FROM Usuarios WHERE Id = {id}";
+            DataTable dataTable = _database.EjecutarConsulta(queryUsuario);
             
             if (dataTable.Rows.Count == 0)
             {
@@ -59,6 +72,19 @@ namespace WebAppCS.Controllers
                 id_rol: dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Id_rol"] as int? ?? 0,
                 id_estado: dataTable.Rows.Cast<DataRow>().FirstOrDefault()?["Id_estado"] as int? ?? 0
             );
+
+            string queryEstados = @" SELECT e.id, e.estado
+            FROM Estados e
+            WHERE e.pertenencia = 'usuarios'";
+
+            string queryRoles = @" SELECT r.id, r.nombre, r.hash
+            FROM Roles r";
+            
+            DataTable estados = _database.EjecutarConsulta(queryEstados);
+            DataTable roles = _database.EjecutarConsulta(queryRoles);
+
+            ViewBag.Estados = estados;
+            ViewBag.Roles = roles;
 
             return View("~/Views/Users/Edit.cshtml", usuario);
         }

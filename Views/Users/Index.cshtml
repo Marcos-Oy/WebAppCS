@@ -66,7 +66,13 @@
                             <td>@row["email"]</td>
                             <td>@row["telefono"]</td>
                             <td>@row["rol"]</td>
-                            <td>@row["estado"]</td>
+                            <td>
+                                @if (row["estado"].ToString() == "Activo"){
+                                    <span class="badge bg-success">@row["estado"]</span>
+                                }else{
+                                    <span class="badge bg-danger">@row["estado"]</span>
+                                }
+                            </td>
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <a href="@Url.Action("Edit", "Users", new { id = row["Id"] })" class="btn btn-info"><i class="fas fa-pen"></i></a>
