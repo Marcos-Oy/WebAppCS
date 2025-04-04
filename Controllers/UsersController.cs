@@ -167,11 +167,9 @@ namespace WebAppCS.Controllers
             model.Rut = FormatearRut(model.Rut);
             // Formatear el TELÉFONO antes de guardarlo
             model.Telefono = model.Telefono.Replace(" ", string.Empty);
-            // Generar el hash MD5 de la contraseña
-            string passwordMD5 = GenerarMD5(model.Password);
 
             // Lógica para actualizar el usuario
-            string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}', Id_rol = {model.Id_rol}, Id_estado = {model.Id_estado}, Password = '{passwordMD5}' WHERE Id = {model.Id}";
+            string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}', Id_rol = {model.Id_rol}, Id_estado = {model.Id_estado} WHERE Id = {model.Id}";
             _database.EjecutarComando(query);
 
             return RedirectToAction("Index", "Users");
@@ -216,7 +214,7 @@ namespace WebAppCS.Controllers
             return RedirectToAction("Index", "Users");
         }
 
-        // Acción: Eliminar un usuario
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             string query = $"DELETE FROM Usuarios WHERE Id = {id}";
