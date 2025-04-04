@@ -89,7 +89,7 @@
                                                     @(Convert.ToBoolean(row["acceso"]) ? "checked" : "") />
                                                 <input type="hidden" name="permisos[@row["modulo"]].Acceso" value="false" />
                                                 <label class="custom-control-label" for="acceso_@row["modulo"]">
-                                                    @(Convert.ToBoolean(row["acceso"]) ? "Activado" : "Desactivado")
+                                                    @(Convert.ToBoolean(row["acceso"]) ? "Permitido" : "Denegado")
                                                 </label>
                                             </div>
                                         </div>
@@ -179,36 +179,6 @@
 <script src="~/public/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
 <!-- Personalize DataTables -->
-<script src="~/js/Tables/PermissionsTable.js"></script>
-<script>
-    $(document).ready(function () {
-        // Función para habilitar o deshabilitar los checkboxes de permisos
-        function togglePermissions(modulo, isEnabled) {
-            $('input[name="permisos[' + modulo + '].Crear"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Crear"]').prop('checked') : false);
-            $('input[name="permisos[' + modulo + '].Editar"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Editar"]').prop('checked') : false);
-            $('input[name="permisos[' + modulo + '].Eliminar"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Eliminar"]').prop('checked') : false);
-            $('input[name="permisos[' + modulo + '].Desactivar"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Desactivar"]').prop('checked') : false);
-        }
-
-        // Escucha los cambios de los checkboxes de acceso
-        $('input[type="checkbox"][name$=".Acceso"]').change(function () {
-            var modulo = $(this).attr('id').split('_')[1]; // Obtén el módulo del id
-            if ($(this).prop('checked')) {
-                togglePermissions(modulo, true);  // Habilita los permisos si el checkbox de acceso está marcado
-            } else {
-                togglePermissions(modulo, false); // Deshabilita los permisos si el checkbox de acceso está desmarcado
-            }
-        });
-
-        // Asegúrate de que los checkboxes de permisos estén habilitados o deshabilitados al cargar la página
-        $('input[type="checkbox"][name$=".Acceso"]').each(function () {
-            var modulo = $(this).attr('id').split('_')[1]; // Obtén el módulo del id
-            if ($(this).prop('checked')) {
-                togglePermissions(modulo, true);  // Habilita los permisos si el checkbox de acceso está marcado
-            } else {
-                togglePermissions(modulo, false); // Deshabilita los permisos si el checkbox de acceso no está marcado
-            }
-        });
-    });
-</script>
+<script src="~/js/Permissions/PermissionsTable.js"></script>
+<script src="~/js/Permissions/PermissionsCheck.js"></script>
 

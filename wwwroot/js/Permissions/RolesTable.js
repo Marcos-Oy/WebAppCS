@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("#RoleTable").DataTable({
+    $("#RolesTable").DataTable({
         responsive: true,
         searching: true,
         lengthChange: true,
@@ -66,5 +66,5 @@ $(document).ready(function () {
     })
     .buttons()
     .container()
-    .appendTo("#RoleTable_wrapper .col-md-6:eq(0)");
+    .appendTo("#RolesTable_wrapper .col-md-6:eq(0)");
 });
