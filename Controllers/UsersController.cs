@@ -137,6 +137,10 @@ namespace WebAppCS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(Usuarios model)
         {
+            // Eliminar la contraseña de ModelState para evitar que se valide
+            ModelState.Remove("Password");
+            ModelState.Remove("RepeatPassword");
+
             if (!ModelState.IsValid)
             {
                 // 🔍 Muestra los errores de validación en la consola/logs
@@ -168,6 +172,45 @@ namespace WebAppCS.Controllers
 
             // Lógica para actualizar el usuario
             string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}', Id_rol = {model.Id_rol}, Id_estado = {model.Id_estado}, Password = '{passwordMD5}' WHERE Id = {model.Id}";
+            _database.EjecutarComando(query);
+
+            return RedirectToAction("Index", "Users");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdatePassword(Usuarios model)
+        {
+            // Eliminar la contraseña de ModelState para evitar que se valide
+            ModelState.Remove("Id");
+            ModelState.Remove("Rut");
+            ModelState.Remove("Nombre");
+            ModelState.Remove("Apellidos");
+            ModelState.Remove("Email"); 
+            ModelState.Remove("Telefono");
+            ModelState.Remove("Id_rol");
+            ModelState.Remove("Id_estado");
+            
+            if (!ModelState.IsValid)
+            {
+                // 🔍 Muestra los errores de validación en la consola/logs
+                foreach (var key in ModelState.Keys)
+                {
+                    var errors = ModelState[key].Errors;
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"Error en {key}: {error.ErrorMessage}");
+                    }
+                }
+
+                return RedirectToAction("Edit", new { id = model.Id });
+            }
+
+            // Generar el hash MD5 de la contraseña
+            string passwordMD5 = GenerarMD5(model.Password);
+
+            // Lógica para actualizar el usuario
+            string query = $"UPDATE Usuarios SET Password = '{passwordMD5}' WHERE Id = {model.Id}";
             _database.EjecutarComando(query);
 
             return RedirectToAction("Index", "Users");

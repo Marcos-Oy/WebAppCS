@@ -49,9 +49,6 @@ namespace WebAppCS.Controllers
 
                 string moduloRoles = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 2)";
                 _database.EjecutarComando(moduloRoles);
-
-                string moduloPermisos = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 3)";
-                _database.EjecutarComando(moduloPermisos);
             }
 
             return RedirectToAction("Index", "Permissions");
