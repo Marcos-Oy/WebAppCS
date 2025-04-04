@@ -117,7 +117,8 @@ namespace WebAppCS.Controllers
 
             // Formatear el RUT antes de guardarlo
             model.Rut = FormatearRut(model.Rut);
-
+            // Formatear el TELÉFONO antes de guardarlo
+            model.Telefono = model.Telefono.Replace(" ", string.Empty);
             // Generar el hash MD5 de la contraseña
             string passwordMD5 = GenerarMD5(model.Password);
 
@@ -136,10 +137,6 @@ namespace WebAppCS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(Usuarios model)
         {
-            // Eliminar la contraseña de ModelState para evitar que se valide
-            // ModelState.Remove("Password");
-            // ModelState.Remove("RepeatPassword");
-
             if (!ModelState.IsValid)
             {
                 // 🔍 Muestra los errores de validación en la consola/logs
@@ -164,6 +161,8 @@ namespace WebAppCS.Controllers
 
             // Formatear el RUT antes de guardarlo
             model.Rut = FormatearRut(model.Rut);
+            // Formatear el TELÉFONO antes de guardarlo
+            model.Telefono = model.Telefono.Replace(" ", string.Empty);
             // Generar el hash MD5 de la contraseña
             string passwordMD5 = GenerarMD5(model.Password);
 

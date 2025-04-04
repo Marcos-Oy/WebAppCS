@@ -63,8 +63,12 @@
                             @* <td>@row["id"]</td> *@
                             <td>@row["rut"]</td>
                             <td>@row["nombre"] @row["apellidos"]</td>
-                            <td>@row["email"]</td>
-                            <td>@row["telefono"]</td>
+                            <td>
+                                <a href="tel:@row["telefono"]">@row["telefono"]</a>
+                            </td>
+                            <td>
+                                <a href="mailto:@row["email"]">@row["email"]</a>
+                            </td>
                             <td>@row["rol"]</td>
                             <td>
                                 @if (row["estado"].ToString() == "Activo"){

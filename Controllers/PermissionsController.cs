@@ -47,8 +47,11 @@ namespace WebAppCS.Controllers
                 string moduloUsuario = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 1)";
                 _database.EjecutarComando(moduloUsuario);
 
-                string moduloProductos = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 2)";
-                _database.EjecutarComando(moduloProductos);
+                string moduloRoles = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 2)";
+                _database.EjecutarComando(moduloRoles);
+
+                string moduloPermisos = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 3)";
+                _database.EjecutarComando(moduloPermisos);
             }
 
             return RedirectToAction("Index", "Permissions");
@@ -71,11 +74,25 @@ namespace WebAppCS.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            string queryRole = $"DELETE FROM Roles WHERE Id = {id}";
-            _database.EjecutarComando(queryRole);
+            // Consulta para contar usuarios con este rol
+            string queryUsers = $"SELECT COUNT(id) FROM Usuarios WHERE Id_rol = {id}";
+            DataTable result = _database.EjecutarConsulta(queryUsers);
+            int userCount = Convert.ToInt32(result.Rows[0][0]);
+            
+            if(userCount >= 1)
+            {
+                // Si hay usuarios asociados, no se puede eliminar el rol
+                TempData["Error"] = "No se puede eliminar el rol porque hay usuarios asociados a él.";
+            }
+            else
+            {
+                // Si no hay usuarios asociados, proceder a eliminar el rol y sus permisos
+                string queryRole = $"DELETE FROM Roles WHERE Id = {id}";
+                _database.EjecutarComando(queryRole);
 
-            string queryPermission = $"DELETE FROM Permisos WHERE id_rol = {id}";
-            _database.EjecutarComando(queryPermission);
+                string queryPermission = $"DELETE FROM Permisos WHERE id_rol = {id}";
+                _database.EjecutarComando(queryPermission);
+            }
 
             return RedirectToAction("Index", "Permissions");
         }
