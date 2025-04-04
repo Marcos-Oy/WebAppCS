@@ -75,6 +75,7 @@ namespace WebAppCS.Models
             Telefono = telefono;
             Id_rol = id_rol;
             Id_estado = id_estado;
+            
         }
     }
 }

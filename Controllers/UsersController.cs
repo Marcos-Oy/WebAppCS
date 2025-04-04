@@ -92,7 +92,7 @@ namespace WebAppCS.Controllers
             // Formatear el RUT antes de guardarlo
             model.Rut = FormatearRut(model.Rut);
 
-                // Generar el hash MD5 de la contraseña
+            // Generar el hash MD5 de la contraseña
             string passwordMD5 = GenerarMD5(model.Password);
 
             // Consulta SQL con interpolación
@@ -111,8 +111,8 @@ namespace WebAppCS.Controllers
         public IActionResult Update(Usuarios model)
         {
             // Eliminar la contraseña de ModelState para evitar que se valide
-            ModelState.Remove("Password");
-            ModelState.Remove("RepeatPassword");
+            // ModelState.Remove("Password");
+            // ModelState.Remove("RepeatPassword");
 
             if (!ModelState.IsValid)
             {
@@ -138,9 +138,11 @@ namespace WebAppCS.Controllers
 
             // Formatear el RUT antes de guardarlo
             model.Rut = FormatearRut(model.Rut);
+            // Generar el hash MD5 de la contraseña
+            string passwordMD5 = GenerarMD5(model.Password);
 
             // Lógica para actualizar el usuario
-            string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}', Id_rol = {model.Id_rol}, Id_estado = {model.Id_estado} WHERE Id = {model.Id}";
+            string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}', Id_rol = {model.Id_rol}, Id_estado = {model.Id_estado}, Password = '{passwordMD5}' WHERE Id = {model.Id}";
             _database.EjecutarComando(query);
 
             return RedirectToAction("Index", "Users");

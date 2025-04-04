@@ -110,12 +110,21 @@
                                     </div>
                                 </div>
 
-                                @* <div class="input-group mb-3">
+                                <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                     </div>
-                                    <input type="file" class="form-control" name="FotoPerfil" placeholder="Subir foto de perfil" required>
-                                </div> *@
+                                    <input type="password" class="form-control" name="Password" asp-for="Password" placeholder="Contraseña" required>
+                                    <input type="password" class="form-control" name="RepeatPassword" asp-for="RepeatPassword" placeholder="Repetir Contraseña" required>
+
+                                    <div class="input-group">
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span asp-validation-for="RepeatPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                
                             </div>
 
                             <div class="card-footer">
