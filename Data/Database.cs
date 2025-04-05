@@ -2,7 +2,7 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
 
-namespace WebAppCS.Data  // Asegúrate de que el namespace coincide con el proyecto
+namespace WebAppCS.Data
 {
     public class Database
     {
