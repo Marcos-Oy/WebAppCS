@@ -40,11 +40,13 @@
     <!-- wrapper -->
     <div class="wrapper">
 
-        <partial name="_Navbar" model="Model"  />
-        <partial name="_MainSidebar" model="Model"/>
+        @* <partial name="_Navbar" model="Model"  /> *@
+
+        @await Html.PartialAsync("_Navbar")
+        @await Html.PartialAsync("_MainSidebar")
         @RenderBody()
-        <partial name="_ControlSidebar" model="Model" />
-        <partial name="_Footer" model="Model" />
+        @await Html.PartialAsync("_ControlSidebar")
+        @await Html.PartialAsync("_Footer")
 
         @await Html.PartialAsync("~/Views/Common/Toast.cshtml")
 

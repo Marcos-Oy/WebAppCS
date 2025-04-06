@@ -1,28 +1,34 @@
 using WebAppCS.Data;
+using WebAppCS.Filters;
+using WebAppCS.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔹 Agregar servicio de la base de datos
+// Servicios esenciales
 builder.Services.AddSingleton<Database>();
+builder.Services.AddHttpContextAccessor();
 
-// Configuración de sesiones
-builder.Services.AddDistributedMemoryCache();  // Usar una memoria en caché distribuida para sesiones
+// Configuración de sesión
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // El tiempo de vida de la sesión
-    options.Cookie.HttpOnly = true; // Asegura que el cliente no puede acceder a la cookie
-    options.Cookie.IsEssential = true; // Necesario para cumplir con las leyes de privacidad
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
-// Agregar servicios para controladores y vistas
-builder.Services.AddControllersWithViews();
+// Registrar controladores
+builder.Services.AddScoped<AccountController>();
+
+// Configurar filtros
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<AuthFilter>();
+});
 
 var app = builder.Build();
 
-// 🔹 Habilitar WebSockets
-app.UseWebSockets();
-
-// Configurar el pipeline de solicitudes HTTP.
+// Middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -32,13 +38,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
-// 🔹 Agregar middleware de sesión
-app.UseSession();  // Este middleware es necesario para que la sesión funcione
-
+app.UseSession();
 app.UseAuthorization();
 
-// Configurar las rutas para los controladores
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,9 +1,35 @@
+@{
+    var usuario = AuthService.GetCurrentUser(Context);
+    var permisos = AuthService.GetCurrentPermissions(Context);
+}
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
-        <h5>Title</h5>
-        <p>Sidebar content</p>
+        <h5>Información de la cuenta</h5>
+
+        <h6>Rol</h6>
+        <p>@usuario.Rol</p>
+        
+        <h6>Rut</h6>
+        <p>@usuario.Rut</p>
+
+        <h6>Nombre completo</h6>
+        <p>@usuario.Nombre @usuario.Apellidos</p>
+        
+        <h6>Correo</h6>
+        <p>@usuario.Email</p>
+
+        <h6>Telefono</h6>
+        <p>@usuario.Telefono</p>
+
+        <form action="@Url.Action("Index", "Home")" method="get">
+            <button type="submit" class="btn btn-primary btn-block">Configurar cuenta</button>
+        </form>
+        <br>
+        <form action="@Url.Action("Logout", "Auth")" method="get">
+            <button type="submit" class="btn btn-primary btn-block">Cerrar Sesión</button>
+        </form>
     </div>
 </aside>
 <!-- /.control-sidebar -->

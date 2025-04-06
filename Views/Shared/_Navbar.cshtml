@@ -1,3 +1,7 @@
+@{
+    var usuario = AuthService.GetCurrentUser(Context);
+    var permisos = AuthService.GetCurrentPermissions(Context);
+}
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -10,7 +14,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><span class="input-group-text"><i class="fa fa-user"> Cristian Portilla</i></span></a>
+            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><span class="input-group-text"><i class="fa fa-user"> @usuario.Nombre</i></span></a>
         </li>
     </ul>
 </nav>

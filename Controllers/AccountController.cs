@@ -16,57 +16,41 @@ namespace WebAppCS.Controllers
             _database = database;
         }
 
-        // GET: /Account/Login
-        public IActionResult Index()
+        public Usuarios AuthenticateUser(string email, string password)
         {
-            return View("Login");
-        }
-
-        // GET: /Account/ForgotPassword
-        public IActionResult ForgotPassword()
-        {
-            return View("ForgotPassword");
-        }
-
-        // GET: /Account/Register
-        public IActionResult Register()
-        {
-            return View("Register");
-        }
-
-        // POST: /Account/Login
-        [HttpPost]
-        public IActionResult Login(string email, string password)
-        {
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            try
             {
-                ViewBag.Error = "Por favor completa todos los campos.";
-                return View("Login");
+                string passwordMd5 = CalculateMD5(password);
+                return GetUserFromDB(_database, email, passwordMd5);
             }
-
-            // Calcular el hash MD5 de la contraseña
-            string passwordMd5 = CalcularMD5(password);
-
-            // Validar el usuario contra la base de datos
-            var user = ObtenerUsuario(email, passwordMd5);
-
-            if (user != null)
+            catch
             {
-                // Guardar el nombre del usuario en la sesión
-                HttpContext.Session.SetString("usuario", user.Nombre);
-                return RedirectToAction("Index", "Dashboard");
+                return null;
             }
-
-            ViewBag.Error = "Correo o contraseña incorrectos.";
-            return View("Login");
         }
 
-        private Usuarios? ObtenerUsuario(string email, string passwordMd5)
+        private string CalculateMD5(string input)
         {
-            using var conn = _database.GetConnection();
+            using var md5 = MD5.Create();
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
+            return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+        }
+
+        private Usuarios GetUserFromDB(Database database, string email, string passwordMd5)
+        {
+            using var conn = database.GetConnection();
             conn.Open();
 
-            string query = "SELECT * FROM usuarios WHERE email = @Email AND password = @Password LIMIT 1";
+            string query = @"SELECT u.id, u.rut, u.nombre, u.apellidos, u.email, u.telefono, 
+                            u.id_rol, u.id_estado, r.nombre as rol, e.estado
+                            FROM usuarios u
+                            JOIN estados e ON u.id_estado = e.id 
+                            JOIN roles r ON u.id_rol = r.id
+                            WHERE email = @Email AND password = @Password 
+                            AND e.pertenencia = 'usuarios'
+                            LIMIT 1";
+
             using var cmd = new MySqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@Email", email);
             cmd.Parameters.AddWithValue("@Password", passwordMd5);
@@ -76,26 +60,59 @@ namespace WebAppCS.Controllers
             {
                 return new Usuarios
                 {
-                    Id = Convert.ToInt32(reader["id"]),
-                    Rut = reader["rut"].ToString(),
-                    Nombre = reader["nombre"].ToString(),
-                    Apellidos = reader["apellidos"].ToString(),
-                    Email = reader["email"].ToString(),
-                    Telefono = reader["telefono"].ToString(),
-                    Id_rol = Convert.ToInt32(reader["id_rol"]),
-                    Id_estado = Convert.ToInt32(reader["id_estado"])
+                    Id = reader.GetInt32("id"),
+                    Rut = reader.GetString("rut"),
+                    Nombre = reader.GetString("nombre"),
+                    Apellidos = reader.GetString("apellidos"),
+                    Email = reader.GetString("email"),
+                    Telefono = reader.GetString("telefono"),
+                    Id_rol = reader.GetInt32("id_rol"),
+                    Id_estado = reader.GetInt32("id_estado"),
+                    Rol = reader.GetString("rol"),
+                    Estado = reader.GetString("estado")
                 };
             }
-
             return null;
         }
 
-        private string CalcularMD5(string input)
+        public Dictionary<string, Dictionary<string, bool>> GetUserPermissions(int roleId)
         {
-            using var md5 = MD5.Create();
-            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-            byte[] hashBytes = md5.ComputeHash(inputBytes);
-            return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+            var permisos = new Dictionary<string, Dictionary<string, bool>>();
+            
+            try
+            {
+                using var conn = _database.GetConnection();
+                conn.Open();
+
+                string query = @"SELECT m.nombre as modulo, p.acceso, p.crear, p.editar, 
+                                p.eliminar, p.desactivar 
+                                FROM permisos p 
+                                JOIN modulos m ON p.id_modulo = m.id 
+                                WHERE p.id_rol = @RoleId";
+
+                using var cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@RoleId", roleId);
+
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    var modulo = reader.GetString("modulo");
+                    permisos[modulo] = new Dictionary<string, bool>
+                    {
+                        {"acceso", reader.GetInt32("acceso") == 1},
+                        {"crear", reader.GetInt32("crear") == 1},
+                        {"editar", reader.GetInt32("editar") == 1},
+                        {"eliminar", reader.GetInt32("eliminar") == 1},
+                        {"desactivar", reader.GetInt32("desactivar") == 1}
+                    };
+                }
+            }
+            catch
+            {
+                // Retorna diccionario vacío si hay error
+            }
+            
+            return permisos;
         }
     }
 }

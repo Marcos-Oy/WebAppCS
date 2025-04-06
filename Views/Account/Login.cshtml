@@ -31,7 +31,7 @@
                     <div class="alert alert-danger">@ViewBag.Error</div>
                 }
 
-                <form action="@Url.Action("Login", "Account")" method="post">
+                <form action="@Url.Action("Login", "Auth")" method="post">
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="Correo electrónico" required>
                         <div class="input-group-append">
@@ -49,23 +49,23 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-8">
+                        @* <div class="col-8">
                             <div class="icheck-primary">
                                 <input type="checkbox" id="remember">
                                 <label for="remember">Recuérdame</label>
                             </div>
-                        </div>
+                        </div> *@
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">Iniciar</button>
                         </div>
                     </div>
                 </form>
-                <p class="mb-1">
-                    <a href="@Url.Action("ForgotPassword", "Account")">Olvidé mi contraseña</a>
+                @* <p class="mb-1">
+                    <a href="@Url.Action("ForgotPassword", "Auth")">Olvidé mi contraseña</a>
                 </p>
                 <p class="mb-0">
-                    <a href="@Url.Action("Register", "Account")" class="text-center">Registrarse</a>
-                </p>
+                    <a href="@Url.Action("Register", "Auth")" class="text-center">Registrarse</a>
+                </p> *@
             </div>
         </div>
     </div>

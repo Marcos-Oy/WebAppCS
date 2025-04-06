@@ -141,6 +141,8 @@ namespace WebAppCS.Controllers
             // Eliminar la contraseña de ModelState para evitar que se valide
             ModelState.Remove("Password");
             ModelState.Remove("RepeatPassword");
+            ModelState.Remove("Rol");
+            ModelState.Remove("Estado");
 
             if (!ModelState.IsValid)
             {
@@ -192,6 +194,8 @@ namespace WebAppCS.Controllers
             ModelState.Remove("Telefono");
             ModelState.Remove("Id_rol");
             ModelState.Remove("Id_estado");
+            ModelState.Remove("Rol");
+            ModelState.Remove("Estado");
             
             if (!ModelState.IsValid)
             {

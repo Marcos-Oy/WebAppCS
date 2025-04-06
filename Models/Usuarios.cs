@@ -54,6 +54,10 @@ namespace WebAppCS.Models
         [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
         public string RepeatPassword { get; set; }
 
+        // Se utiliza para mostrar el nombre del rol y estado en lugar de sus IDs
+        public string Rol { get; set; }
+        public string Estado { get; set; }
+
         public Usuarios()
         {
             Rut = string.Empty;
