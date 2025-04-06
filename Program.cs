@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Servicios esenciales
 builder.Services.AddSingleton<Database>();
+builder.Services.AddScoped<Database>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDistributedMemoryCache();

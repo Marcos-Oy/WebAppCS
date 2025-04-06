@@ -8,6 +8,8 @@
     <div class="p-3">
         <h5>Información de la cuenta</h5>
 
+        <hr>
+        
         <h6>Rol</h6>
         <p>@usuario.Rol</p>
         
@@ -23,13 +25,19 @@
         <h6>Telefono</h6>
         <p>@usuario.Telefono</p>
 
-        <form action="@Url.Action("Index", "Home")" method="get">
+        <hr>
+        
+        @* <form action="@Url.Action("Index", "Home")" method="get">
             <button type="submit" class="btn btn-primary btn-block">Configurar cuenta</button>
         </form>
-        <br>
+        <br> *@
+
         <form action="@Url.Action("Logout", "Auth")" method="get">
-            <button type="submit" class="btn btn-primary btn-block">Cerrar Sesión</button>
+            <button type="submit" class="btn btn-info btn-block">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </button>
         </form>
     </div>
 </aside>
+
 <!-- /.control-sidebar -->

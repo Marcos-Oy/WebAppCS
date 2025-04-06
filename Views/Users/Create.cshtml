@@ -4,6 +4,19 @@
     ViewData["SubTitle"] = "Usuarios";
     Layout = "_Layout";
 }
+@{
+    var usuario = AuthService.GetCurrentUser(Context);
+    var permisos = AuthService.GetCurrentPermissions(Context);
+}
+@if (permisos["usuarios"]["acceso"] == false || permisos["usuarios"]["crear"] == false)
+{
+    <script>
+        window.location.href = '@Url.Action("Index", "Dashboard")';
+    </script>
+    <noscript>
+        <meta http-equiv="refresh" content="0; url='@Url.Action("Index", "Dashboard")'" />
+    </noscript>
+}
 <div class="content-wrapper">
     <div class="content">
         <div class="content-header">

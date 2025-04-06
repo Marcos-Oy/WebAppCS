@@ -3,7 +3,19 @@
     ViewData["SubTitle"] = "Roles";
     Layout = "_Layout";
 }
-
+@{
+    var usuario = AuthService.GetCurrentUser(Context);
+    var permisos = AuthService.GetCurrentPermissions(Context);
+}
+@if (permisos["roles-permisos"]["acceso"] == false)
+{
+    <script>
+        window.location.href = '@Url.Action("Index", "Dashboard")';
+    </script>
+    <noscript>
+        <meta http-equiv="refresh" content="0; url='@Url.Action("Index", "Dashboard")'" />
+    </noscript>
+}
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <div class="content">
