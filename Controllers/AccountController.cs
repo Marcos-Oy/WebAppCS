@@ -18,15 +18,8 @@ namespace WebAppCS.Controllers
 
         public Usuarios AuthenticateUser(string email, string password)
         {
-            try
-            {
-                string passwordMd5 = CalculateMD5(password);
-                return GetUserFromDB(_database, email, passwordMd5);
-            }
-            catch
-            {
-                return null;
-            }
+            string passwordMd5 = CalculateMD5(password);
+            return GetUserFromDB(_database, email, passwordMd5);
         }
 
         private string CalculateMD5(string input)

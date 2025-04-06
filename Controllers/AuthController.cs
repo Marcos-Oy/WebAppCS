@@ -33,16 +33,29 @@ namespace WebAppCS.Controllers
                 return View("~/Views/Account/Login.cshtml");
             }
 
-            var usuario = _accountController.AuthenticateUser(email, password);
-            if (usuario != null)
+            try
             {
-                var permisos = _accountController.GetUserPermissions(usuario.Id_rol);
-                AuthService.Login(HttpContext, usuario, permisos);
-                return RedirectToAction("Index", "Dashboard");
-            }
+                var usuario = _accountController.AuthenticateUser(email, password);
+                if (usuario != null)
+                {
+                    var permisos = _accountController.GetUserPermissions(usuario.Id_rol);
+                    AuthService.Login(HttpContext, usuario, permisos);
+                    return RedirectToAction("Index", "Dashboard");
+                }
 
-            ViewBag.Error = "Correo o contraseña incorrectos.";
-            return View("~/Views/Account/Login.cshtml");
+                ViewBag.Error = "Correo o contraseña incorrectos.";
+                return View("~/Views/Account/Login.cshtml");
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                ViewBag.Error = $"Error al ejecutar consulta: {ex.Message} (Código: {ex.Number})";
+                return View("~/Views/Account/Login.cshtml");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Ocurrió un error inesperado: {ex.Message}";
+                return View("~/Views/Account/Login.cshtml");
+            }
         }
 
         [HttpGet]
