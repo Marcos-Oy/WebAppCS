@@ -4,6 +4,7 @@ using WebAppCS.Middleware;
 
 namespace WebAppCS.Controllers
 {
+    [NoCache]
     public class AuthController : Controller
     {
         private readonly Database _database;
@@ -47,7 +48,15 @@ namespace WebAppCS.Controllers
         [HttpGet]
         public IActionResult Logout()
         {
-            AuthService.Logout(HttpContext);
+            // Limpiar toda la sesión
+            HttpContext.Session.Clear();
+            
+            // Invalidar la caché del navegador
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            Response.Headers["Pragma"] = "no-cache";
+            Response.Headers["Expires"] = "0";
+            
+            // Redirigir al login con parámetro para evitar caché
             return RedirectToAction("Index", "Auth");
         }
     }

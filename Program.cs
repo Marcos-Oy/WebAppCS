@@ -1,6 +1,6 @@
 using WebAppCS.Data;
-using WebAppCS.Filters;
 using WebAppCS.Controllers;
+using WebAppCS.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Database>();
 builder.Services.AddHttpContextAccessor();
 
-// Configuración de sesión
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<WebAppCS.Middleware.NoCacheAttribute>();
+});
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);

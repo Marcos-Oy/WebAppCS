@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using WebAppCS.Middleware;
 
-namespace WebAppCS.Filters
+namespace WebAppCS.Middleware
 {
     public class AuthFilter : IActionFilter
     {
@@ -16,6 +15,10 @@ namespace WebAppCS.Filters
 
             if (!AuthService.IsAuthenticated(context.HttpContext))
             {
+                // Añadir headers anti-caché
+                context.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                context.HttpContext.Response.Headers["Pragma"] = "no-cache";
+                
                 context.Result = new RedirectToActionResult("Index", "Auth", null);
             }
         }
