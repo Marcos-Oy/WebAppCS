@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="~/public/dist/css/adminlte.min.css">
     <!-- jQuery -->
     <script src="~/public/plugins/jquery/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
@@ -28,15 +29,20 @@
     <!-- wrapper -->
     <div class="wrapper">
 
-        @* <partial name="_Navbar" model="Model"  /> *@
+        @* <partial name="_Navbar" model="Model"  />
+        <partial name="_MainSidebar" model="Model"  />
+        @RenderBody();
+        <partial name="_ControlSidebar" model="Model"  />
+        <partial name="_Footer" model="Model"  /> *@
 
-        @await Html.PartialAsync("_Navbar")
-        @await Html.PartialAsync("_MainSidebar")
-        @RenderBody()
-        @await Html.PartialAsync("_ControlSidebar")
-        @await Html.PartialAsync("_Footer")
+        @await Html.PartialAsync("_Navbar");
+        @await Html.PartialAsync("_MainSidebar");
+        @RenderBody();
+        @await Html.PartialAsync("_ControlSidebar");
+        @await Html.PartialAsync("_Footer");
 
-        @await Html.PartialAsync("~/Views/Common/Toast.cshtml")
+        @await Html.PartialAsync("~/Views/Common/Toast.cshtml");
+
 
     </div>
     <!-- ./wrapper -->

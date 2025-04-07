@@ -93,6 +93,9 @@ namespace WebAppCS.Controllers
         [HttpPost]
         public IActionResult Insert(Usuarios model)
         {
+            ModelState.Remove("Rol");
+            ModelState.Remove("Estado");
+
             if (!ModelState.IsValid)
             {
                 // 🔍 Muestra los errores de validación en la consola/logs
