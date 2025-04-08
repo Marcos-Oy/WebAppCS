@@ -77,8 +77,7 @@ namespace WebAppCS.Controllers
                 using var conn = _database.GetConnection();
                 conn.Open();
 
-                string query = @"SELECT m.nombre as modulo, p.acceso, p.crear, p.editar, 
-                                p.eliminar, p.desactivar 
+                string query = @"SELECT p.*, m.nombre as modulo
                                 FROM permisos p 
                                 JOIN modulos m ON p.id_modulo = m.id 
                                 WHERE p.id_rol = @RoleId";
@@ -96,7 +95,9 @@ namespace WebAppCS.Controllers
                         {"crear", reader.GetInt32("crear") == 1},
                         {"editar", reader.GetInt32("editar") == 1},
                         {"eliminar", reader.GetInt32("eliminar") == 1},
-                        {"desactivar", reader.GetInt32("desactivar") == 1}
+                        {"activar_desactivar", reader.GetInt32("activar_desactivar") == 1},
+                        {"restaurar", reader.GetInt32("restaurar") == 1},
+                        {"cambiar_password", reader.GetInt32("cambiar_password") == 1}
                     };
                 }
             }

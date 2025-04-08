@@ -18,5 +18,10 @@ namespace WebAppCS.Controllers
             return View("Index");
         }
 
+        public ActionResult Develop()
+        {
+            return View("~/Views/Home/Develop.cshtml");
+        }
+
     }
 }

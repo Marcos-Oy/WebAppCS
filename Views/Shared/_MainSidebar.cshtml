@@ -54,6 +54,26 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="@Url.Action("Develop", "Home")" class="nav-link">
+                        <i class="nav-icon fa fa-barcode"></i>
+                        <p>
+                            Productos
+                            <span class="right badge badge-danger">New</span>
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Develop", "Home")" class="nav-link">
+                        <i class="nav-icon fa fa-truck"></i>
+                        <p>
+                            Proveedores
+                            <span class="right badge badge-danger">New</span>
+                        </p>
+                    </a>
+                </li>
+
                 @if (permisos["usuarios"]["acceso"] == true || permisos["roles-permisos"]["acceso"] == true){
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
@@ -71,7 +91,7 @@
                                         <i class="nav-icon fa fa-user"></i>
                                         <p>
                                             Usuarios
-                                            <span class="right badge badge-danger">New</span>
+                                            @* <span class="right badge badge-danger">New</span> *@
                                         </p>
                                     </a>
                                 </li>
@@ -83,7 +103,7 @@
                                         <i class="nav-icon fa fa-user-tag"></i>
                                         <p>
                                             Roles y Permisos
-                                            <span class="right badge badge-danger">New</span>
+                                            @* <span class="right badge badge-danger">New</span> *@
                                         </p>
                                     </a>
                                 </li>

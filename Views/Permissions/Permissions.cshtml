@@ -7,14 +7,17 @@
     var usuario = AuthService.GetCurrentUser(Context);
     var permisos = AuthService.GetCurrentPermissions(Context);
 }
-@if (permisos["roles-permisos"]["acceso"] == false)
+@foreach (System.Data.DataRow row in ViewBag.Roles.Rows)
 {
-    <script>
-        window.location.href = '@Url.Action("Index", "Dashboard")';
-    </script>
-    <noscript>
-        <meta http-equiv="refresh" content="0; url='@Url.Action("Index", "Dashboard")'" />
-    </noscript>
+    @if (row["nombre"].ToString() == "root" || permisos["roles-permisos"]["acceso"] == false)
+    {
+        <script>
+            window.location.href = '@Url.Action("Index", "Dashboard")';
+        </script>
+        <noscript>
+            <meta http-equiv="refresh" content="0; url='@Url.Action("Index", "Dashboard")'" />
+        </noscript>
+    }
 }
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -25,7 +28,7 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0 text-dark">
-                            Permisos 
+                            Permisos
                             <a href="@Url.Action("Index", "Permissions")" class="btn btn-secondary">
                                 <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
                             </a>
@@ -60,18 +63,22 @@
                         .table-small-font td {
                             font-size: 12px;
                         }
+
                         .table-small-font th {
                             font-size: 12px;
                         }
+
                         .custom-switch-container {
                             display: flex;
                             flex-wrap: wrap;
                             gap: 15px;
                         }
+
                         .custom-switch-wrapper {
                             display: flex;
                             align-items: center;
                         }
+
                         .custom-control-label {
                             margin-left: 5px;
                         }
@@ -88,17 +95,17 @@
                         <tbody>
                             @foreach (System.Data.DataRow row in ViewBag.Permisos.Rows)
                             {
-                                
+
                                 <tr>
                                     <input type="hidden" name="permisos[@row["modulo"]].Id" value="@row["id"]" />
                                     <td>@row["modulo"]</td>
                                     <td>
                                         <div class="form-group">
-                                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                                <input type="checkbox" class="custom-control-input" 
-                                                    id="acceso_@row["modulo"]"
-                                                    name="permisos[@row["modulo"]].Acceso" value="true"
-                                                    @(Convert.ToBoolean(row["acceso"]) ? "checked" : "") />
+                                            <div
+                                                class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="acceso_@row["modulo"]" name="permisos[@row["modulo"]].Acceso"
+                                                    value="true" @(Convert.ToBoolean(row["acceso"]) ? "checked" : "") />
                                                 <input type="hidden" name="permisos[@row["modulo"]].Acceso" value="false" />
                                                 <label class="custom-control-label" for="acceso_@row["modulo"]">
                                                     @(Convert.ToBoolean(row["acceso"]) ? "Permitido" : "Denegado")
@@ -108,46 +115,116 @@
                                     </td>
                                     <td>
                                         <div class="form-group custom-switch-container">
-                                            <div class="custom-switch-wrapper">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="crear_@row["modulo"]"
-                                                        name="permisos[@row["modulo"]].Crear" value="true"
-                                                        @(Convert.ToBoolean(row["crear"]) ? "checked" : "") />
-                                                    <input type="hidden" name="permisos[@row["modulo"]].Crear" value="false" />
-                                                    <label class="custom-control-label" for="crear_@row["modulo"]">Crear</label>
+
+                                            @* Crear *@
+
+                                            @if (row["modulo"].ToString() == "usuarios"
+                                            || row["modulo"].ToString() == "roles-permisos")
+                                            {
+                                                <div class="custom-switch-wrapper">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="crear_@row["modulo"]" name="permisos[@row["modulo"]].Crear"
+                                                            value="true" @(Convert.ToBoolean(row["crear"]) ? "checked" : "") />
+                                                        <input type="hidden" name="permisos[@row["modulo"]].Crear"
+                                                            value="false" />
+                                                        <label class="custom-control-label"
+                                                            for="crear_@row["modulo"]">Crear</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="custom-switch-wrapper">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="editar_@row["modulo"]"
-                                                        name="permisos[@row["modulo"]].Editar" value="true"
-                                                        @(Convert.ToBoolean(row["editar"]) ? "checked" : "") />
-                                                    <input type="hidden" name="permisos[@row["modulo"]].Editar" value="false" />
-                                                    <label class="custom-control-label" for="editar_@row["modulo"]">Editar</label>
+                                            }
+
+                                            @* Editar *@
+
+                                            @if (row["modulo"].ToString() == "usuarios"
+                                            || row["modulo"].ToString() == "roles-permisos")
+                                            {
+                                                <div class="custom-switch-wrapper">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="editar_@row["modulo"]" name="permisos[@row["modulo"]].Editar"
+                                                            value="true" @(Convert.ToBoolean(row["editar"]) ? "checked" : "") />
+                                                        <input type="hidden" name="permisos[@row["modulo"]].Editar"
+                                                            value="false" />
+                                                        <label class="custom-control-label"
+                                                            for="editar_@row["modulo"]">Editar</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="custom-switch-wrapper">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="eliminar_@row["modulo"]"
-                                                        name="permisos[@row["modulo"]].Eliminar" value="true"
-                                                        @(Convert.ToBoolean(row["eliminar"]) ? "checked" : "") />
-                                                    <input type="hidden" name="permisos[@row["modulo"]].Eliminar" value="false" />
-                                                    <label class="custom-control-label" for="eliminar_@row["modulo"]">Eliminar</label>
+                                            }
+
+                                            @* Eliminar *@
+
+                                            @if (row["modulo"].ToString() == "usuarios"
+                                            || row["modulo"].ToString() == "roles-permisos")
+                                            {
+                                                <div class="custom-switch-wrapper">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="eliminar_@row["modulo"]"
+                                                            name="permisos[@row["modulo"]].Eliminar" value="true"
+                                                            @(Convert.ToBoolean(row["eliminar"]) ? "checked" : "") />
+                                                        <input type="hidden" name="permisos[@row["modulo"]].Eliminar"
+                                                            value="false" />
+                                                        <label class="custom-control-label"
+                                                            for="eliminar_@row["modulo"]">Eliminar</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="custom-switch-wrapper">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="desactivar_@row["modulo"]"
-                                                        name="permisos[@row["modulo"]].Desactivar" value="true"
-                                                        @(Convert.ToBoolean(row["desactivar"]) ? "checked" : "") />
-                                                    <input type="hidden" name="permisos[@row["modulo"]].Desactivar" value="false" />
-                                                    <label class="custom-control-label" for="desactivar_@row["modulo"]">Desactivar</label>
+                                            }
+
+                                            @* Restaurar *@
+
+                                            @if (row["modulo"].ToString() == "usuarios")
+                                            {
+                                                <div class="custom-switch-wrapper">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="restaurar_@row["modulo"]"
+                                                            name="permisos[@row["modulo"]].Restaurar" value="true"
+                                                            @(Convert.ToBoolean(row["restaurar"]) ? "checked" : "") />
+                                                        <input type="hidden" name="permisos[@row["modulo"]].Restaurar"
+                                                            value="false" />
+                                                        <label class="custom-control-label"
+                                                            for="restaurar_@row["modulo"]">Restaurar</label>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            }
+
+                                            @* Activar/Desactivar *@
+                                            
+                                            @if (row["modulo"].ToString() == "usuarios")
+                                            {
+                                                <div class="custom-switch-wrapper">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="activar_desactivar_@row["modulo"]"
+                                                            name="permisos[@row["modulo"]].Activar_Desactivar" value="true"
+                                                            @(Convert.ToBoolean(row["activar_desactivar"]) ? "checked" : "") />
+                                                        <input type="hidden" name="permisos[@row["modulo"]].Activar_Desactivar"
+                                                            value="false" />
+                                                        <label class="custom-control-label"
+                                                            for="activar_desactivar_@row["modulo"]">Activar/Desactivar</label>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            @* Cambiar contraseña *@
+                                            
+                                            @if (row["modulo"].ToString() == "usuarios")
+                                            {
+                                                <div class="custom-switch-wrapper">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="cambiar_password_@row["modulo"]"
+                                                            name="permisos[@row["modulo"]].Cambiar_Password" value="true"
+                                                            @(Convert.ToBoolean(row["cambiar_password"]) ? "checked" : "") />
+                                                        <input type="hidden" name="permisos[@row["modulo"]].Cambiar_Password"
+                                                            value="false" />
+                                                        <label class="custom-control-label"
+                                                            for="cambiar_password_@row["modulo"]">Cambiar contraseña</label>
+                                                    </div>
+                                                </div>
+                                            }
+                                            
                                         </div>
                                     </td>
                                 </tr>
@@ -193,4 +270,3 @@
 <!-- Personalize DataTables -->
 <script src="~/js/Permissions/PermissionsTable.js"></script>
 <script src="~/js/Permissions/PermissionsCheck.js"></script>
-

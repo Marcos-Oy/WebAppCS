@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using WebAppCS.Data;
 using WebAppCS.Models;
+using WebAppCS.Middleware;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -10,15 +11,18 @@ namespace WebAppCS.Controllers
     public class PermissionsController : Controller
     {
         private readonly Database _database;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PermissionsController(Database database)
+        public PermissionsController(Database database, IHttpContextAccessor httpContextAccessor)
         {
             _database = database;
+            _httpContextAccessor = httpContextAccessor;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            string query = "SELECT * FROM roles";
+            string query = "SELECT * FROM roles WHERE nombre != 'root'";
             DataTable roles = _database.EjecutarConsulta(query);
             ViewBag.Roles = roles;
             ViewBag.RoleModel = new Roles();
@@ -113,7 +117,10 @@ namespace WebAppCS.Controllers
         {
             string roles_query = $"SELECT nombre FROM roles where id='{id}'";
             // Asegúrate de seleccionar p.id como "id" (sin alias)
-            string permisos_query = $"SELECT p.id, m.nombre as modulo, p.acceso, p.crear, p.editar, p.eliminar, p.desactivar FROM permisos p JOIN modulos m ON p.id_modulo = m.id WHERE id_rol = '{id}'";
+            string permisos_query = $@"SELECT p.*, m.nombre as modulo
+            FROM permisos p 
+            JOIN modulos m ON p.id_modulo = m.id 
+            WHERE id_rol = '{id}'";
             
             DataTable roles = _database.EjecutarConsulta(roles_query);
             DataTable permisos = _database.EjecutarConsulta(permisos_query);
@@ -153,7 +160,9 @@ namespace WebAppCS.Controllers
                         crear = {(permiso.Crear ? 1 : 0)},
                         editar = {(permiso.Editar ? 1 : 0)},
                         eliminar = {(permiso.Eliminar ? 1 : 0)},
-                        desactivar = {(permiso.Desactivar ? 1 : 0)}
+                        activar_desactivar = {(permiso.Activar_Desactivar ? 1 : 0)},
+                        restaurar = {(permiso.Restaurar ? 1 : 0)},
+                        cambiar_password = {(permiso.Cambiar_Password ? 1 : 0)}
                     WHERE id = {permiso.Id}";
 
                 try
@@ -170,7 +179,7 @@ namespace WebAppCS.Controllers
                     TempData["ToastrType"] = "error"; // success | info | warning | error 
                 }
             }
-
+            
             return RedirectToAction("Index");
         }
 

@@ -7,7 +7,9 @@ namespace WebAppCS.Models
         public bool Crear { get; set; }
         public bool Editar { get; set; }
         public bool Eliminar { get; set; }
-        public bool Desactivar { get; set; }
+        public bool Activar_Desactivar { get; set; }
+        public bool Restaurar { get; set; }
+        public bool Cambiar_Password { get; set; }
 
     }
 }

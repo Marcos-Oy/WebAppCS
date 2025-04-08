@@ -35,12 +35,21 @@ namespace WebAppCS.Controllers
 
             try
             {
+                email = email.Replace(" ", "").ToLower();
                 var usuario = _accountController.AuthenticateUser(email, password);
                 if (usuario != null)
                 {
-                    var permisos = _accountController.GetUserPermissions(usuario.Id_rol);
-                    AuthService.Login(HttpContext, usuario, permisos);
-                    return RedirectToAction("Index", "Dashboard");
+                    if(usuario.Estado == "Inactivo"){
+                        ViewBag.Error = "Tu cuenta ha sido desactivada por el administrador.";
+                        return View("~/Views/Account/Login.cshtml");
+                    }else if(usuario.Estado == "Eliminado"){
+                        ViewBag.Error = "Tu cuenta no ha sido encontrada.";
+                        return View("~/Views/Account/Login.cshtml");
+                    }else{
+                        var permisos = _accountController.GetUserPermissions(usuario.Id_rol);
+                        AuthService.Login(HttpContext, usuario, permisos);
+                        return RedirectToAction("Index", "Dashboard");
+                    }
                 }
 
                 ViewBag.Error = "Correo o contraseña incorrectos.";

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using WebAppCS.Data;
 using WebAppCS.Models;
+using WebAppCS.Middleware;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -10,34 +11,61 @@ namespace WebAppCS.Controllers
     public class UsersController : Controller
     {
         private readonly Database _database;
-
-        public UsersController(Database database)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UsersController(Database database, IHttpContextAccessor httpContextAccessor)
         {
             _database = database;
+            _httpContextAccessor = httpContextAccessor;
         }
+        
+        #region "Métodos GET"
 
-        // Acción GET: Mostrar lista de usuarios
+        [HttpGet]
         public IActionResult Index()
         {
-            string query = "SELECT u.id, u.rut, u.apellidos, u.nombre, u.email, u.telefono, e.estado, r.nombre as rol "
-            +"FROM Usuarios u "
-            +"JOIN Roles r ON u.id_rol = r.id "
-            +"JOIN Estados e ON u.id_estado = e.id "
-            +"WHERE e.pertenencia = 'usuarios'";
+            var httpContext = _httpContextAccessor.HttpContext;
+            var usuario = AuthService.GetCurrentUser(httpContext);
+            var permisos = AuthService.GetCurrentPermissions(httpContext);
+
+            string query = string.Empty;
+
+            if(permisos["usuarios"]["restaurar"] == false)
+            {
+                query = @"SELECT u.id, u.rut, u.apellidos, u.nombre, u.email, u.telefono, e.estado, r.nombre as rol
+                FROM Usuarios u
+                JOIN Roles r ON u.id_rol = r.id
+                JOIN Estados e ON u.id_estado = e.id
+                WHERE e.pertenencia = 'usuarios'
+                AND e.estado != 'Eliminado'
+                AND r.nombre != 'root'
+                ORDER BY u.id DESC";
+            }
+
+            if(permisos["usuarios"]["restaurar"] == true)
+            {
+                query = @"SELECT u.id, u.rut, u.apellidos, u.nombre, u.email, u.telefono, e.estado, r.nombre as rol
+                FROM Usuarios u
+                JOIN Roles r ON u.id_rol = r.id
+                JOIN Estados e ON u.id_estado = e.id
+                WHERE e.pertenencia = 'usuarios'
+                AND r.nombre != 'root'
+                ORDER BY u.id DESC";
+            }
             
             DataTable usuarios = _database.EjecutarConsulta(query);
             return View("~/Views/Users/Index.cshtml", usuarios); // Pasar la lista de usuarios a la vista
         }
-
-        // Acción GET: Mostrar formulario para crear un nuevo usuario
+        
+        [HttpGet]
         public IActionResult Create()
         {
             string queryEstados = @" SELECT e.id, e.estado
             FROM Estados e
-            WHERE e.pertenencia = 'usuarios'";
+            WHERE e.pertenencia = 'usuarios'
+            AND e.estado != 'Eliminado'";
 
             string queryRoles = @" SELECT r.id, r.nombre, r.hash
-            FROM Roles r";
+            FROM Roles r WHERE r.nombre != 'root'";
             
             DataTable estados = _database.EjecutarConsulta(queryEstados);
             DataTable roles = _database.EjecutarConsulta(queryRoles);
@@ -48,7 +76,6 @@ namespace WebAppCS.Controllers
             return View("~/Views/Users/Create.cshtml");
         }
 
-        // Acción GET: Mostrar formulario para editar un usuario
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -75,10 +102,11 @@ namespace WebAppCS.Controllers
 
             string queryEstados = @" SELECT e.id, e.estado
             FROM Estados e
-            WHERE e.pertenencia = 'usuarios'";
+            WHERE e.pertenencia = 'usuarios'
+            AND e.estado != 'Eliminado'";
 
             string queryRoles = @" SELECT r.id, r.nombre, r.hash
-            FROM Roles r";
+            FROM Roles r WHERE r.nombre != 'root'";
             
             DataTable estados = _database.EjecutarConsulta(queryEstados);
             DataTable roles = _database.EjecutarConsulta(queryRoles);
@@ -89,7 +117,10 @@ namespace WebAppCS.Controllers
             return View("~/Views/Users/Edit.cshtml", usuario);
         }
 
-        // Acción POST: Crear un nuevo usuario
+        #endregion
+        
+        #region "Métodos POST"
+        
         [HttpPost]
         public IActionResult Insert(Usuarios model)
         {
@@ -122,6 +153,8 @@ namespace WebAppCS.Controllers
             model.Rut = FormatearRut(model.Rut);
             // Formatear el TELÉFONO antes de guardarlo
             model.Telefono = model.Telefono.Replace(" ", string.Empty);
+            // Formatear el CORREO antes de guardarlo
+            model.Email = model.Email.Replace(" ", "").ToLower();
             // Generar el hash MD5 de la contraseña
             string passwordMD5 = GenerarMD5(model.Password);
 
@@ -135,15 +168,14 @@ namespace WebAppCS.Controllers
 
             return RedirectToAction("Index", "Users");
         }
-        
-        
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Update(Usuarios model)
+        public IActionResult UpdateUser(Usuarios model)
         {
             // Eliminar la contraseña de ModelState para evitar que se valide
             ModelState.Remove("Password");
             ModelState.Remove("RepeatPassword");
+            ModelState.Remove("Id_estado");
             ModelState.Remove("Rol");
             ModelState.Remove("Estado");
 
@@ -173,9 +205,51 @@ namespace WebAppCS.Controllers
             model.Rut = FormatearRut(model.Rut);
             // Formatear el TELÉFONO antes de guardarlo
             model.Telefono = model.Telefono.Replace(" ", string.Empty);
+            // Formatear el EMAIL antes de guardarlo
+            model.Email = model.Email.Replace(" ", "").ToLower();
 
             // Lógica para actualizar el usuario
-            string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}', Id_rol = {model.Id_rol}, Id_estado = {model.Id_estado} WHERE Id = {model.Id}";
+            string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}', Id_rol = {model.Id_rol} WHERE Id = {model.Id}";
+            _database.EjecutarComando(query);
+
+            TempData["ToastrMessage"] = "Usuario actualizado correctamente";
+            TempData["ToastrType"] = "success"; // success | info | warning | error 
+
+            return RedirectToAction("Index", "Users");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateEstado(Usuarios model)
+        {
+            // Eliminar la contraseña de ModelState para evitar que se valide
+            ModelState.Remove("Rut");
+            ModelState.Remove("Nombre");
+            ModelState.Remove("Apellidos");
+            ModelState.Remove("Email"); 
+            ModelState.Remove("Telefono");
+            ModelState.Remove("Id_rol");
+            ModelState.Remove("Rol");
+            ModelState.Remove("Estado");
+            ModelState.Remove("Password");
+            ModelState.Remove("RepeatPassword");
+
+            if (!ModelState.IsValid)
+            {
+                // 🔍 Muestra los errores de validación en la consola/logs
+                foreach (var key in ModelState.Keys)
+                {
+                    var errors = ModelState[key].Errors;
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"Error en {key}: {error.ErrorMessage}");
+                    }
+                }
+
+                return RedirectToAction("Edit", new { id = model.Id });
+            }
+
+            // Lógica para actualizar el usuario
+            string query = $"UPDATE Usuarios SET Id_estado = {model.Id_estado} WHERE Id = {model.Id}";
             _database.EjecutarComando(query);
 
             TempData["ToastrMessage"] = "Usuario actualizado correctamente";
@@ -231,14 +305,69 @@ namespace WebAppCS.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            string query = $"DELETE FROM Usuarios WHERE Id = {id}";
-            _database.EjecutarComando(query);
+            // string query = $"DELETE FROM Usuarios WHERE Id = {id}";
+            // _database.EjecutarComando(query);
 
-            TempData["ToastrMessage"] = "Usuario borrado correctamente";
-            TempData["ToastrType"] = "success"; // success | info | warning | error 
+            try{
+                string query = $@"UPDATE Usuarios SET 
+                Id_estado = (select id from Estados where pertenencia = 'usuarios' and estado = 'Eliminado')
+                WHERE Id = {id}";
+
+                _database.EjecutarComando(query);
+                
+                int filasAfectadas = _database.EjecutarComando(query);
+                Console.WriteLine($"Filas afectadas: {filasAfectadas}");
+
+                TempData["ToastrMessage"] = "Usuario eliminado correctamente" + id;
+                TempData["ToastrType"] = "success"; // success | info | warning | error 
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                TempData["ToastrMessage"] = "Error al eliminar el usuario: " + ex.Message;
+                TempData["ToastrType"] = "error"; // success | info | warning | error 
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastrMessage"] = "Error al eliminar el usuario: " + ex.Message;
+                TempData["ToastrType"] = "error"; // success | info | warning | error 
+            }
 
             return RedirectToAction("Index", "Users");
         }
+
+        [HttpPost]
+        public IActionResult Restore(int id)
+        {
+            // string query = $"DELETE FROM Usuarios WHERE Id = {id}";
+            // _database.EjecutarComando(query);
+            try{
+                string query = $@"UPDATE Usuarios SET 
+                Id_estado = (select id from Estados where pertenencia = 'usuarios' and estado = 'Inactivo')
+                WHERE Id = {id}";
+
+                _database.EjecutarComando(query);
+                
+                int filasAfectadas = _database.EjecutarComando(query);
+                Console.WriteLine($"Filas afectadas: {filasAfectadas}");
+
+                TempData["ToastrMessage"] = "Usuario restaurado correctamente" + id;
+                TempData["ToastrType"] = "success"; // success | info | warning | error 
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                TempData["ToastrMessage"] = "Error al restaurar el usuario: " + ex.Message;
+                TempData["ToastrType"] = "error"; // success | info | warning | error 
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastrMessage"] = "Error al restaurar el usuario: " + ex.Message;
+                TempData["ToastrType"] = "error"; // success | info | warning | error 
+            }
+
+            return RedirectToAction("Index", "Users");
+        }
+
+        #endregion
 
         public static bool ValidarRut(string rut)
         {
@@ -291,7 +420,6 @@ namespace WebAppCS.Controllers
             return rutConPuntos + "-" + digitoVerificador; // Devolver el rut con puntos y guion
         }
     
-        // Función para generar el hash MD5
         private string GenerarMD5(string input)
         {
             using (MD5 md5 = MD5.Create())

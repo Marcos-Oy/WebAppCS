@@ -29,24 +29,26 @@
     <!-- wrapper -->
     <div class="wrapper">
 
-        @* <partial name="_Navbar" model="Model"  />
-        <partial name="_MainSidebar" model="Model"  />
-        @RenderBody();
-        <partial name="_ControlSidebar" model="Model"  />
-        <partial name="_Footer" model="Model"  /> *@
+        @await Html.PartialAsync("_Navbar")
+        @await Html.PartialAsync("_MainSidebar")
+        @RenderBody()
+        @await Html.PartialAsync("_ControlSidebar")
+        @await Html.PartialAsync("_Footer")
 
-        @await Html.PartialAsync("_Navbar");
-        @await Html.PartialAsync("_MainSidebar");
-        @RenderBody();
-        @await Html.PartialAsync("_ControlSidebar");
-        @await Html.PartialAsync("_Footer");
-
-        @await Html.PartialAsync("~/Views/Common/Toast.cshtml");
-
+        @await Html.PartialAsync("~/Views/Common/Toast.cshtml")
 
     </div>
     <!-- ./wrapper -->
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+        @* 
+        <partial name="_Navbar" model="Model"  />
+        <partial name="_MainSidebar" model="Model"  />
+        @RenderBody()
+        <partial name="_ControlSidebar" model="Model"  />
+        <partial name="_Footer" model="Model"  /> 
+
+        <partial name="~/Views/Common/Toast.cshtml" />
+        *@

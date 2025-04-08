@@ -25,13 +25,16 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0 text-dark">
-                            Usuarios 
-                            @if (permisos["usuarios"]["crear"] == true){
-                                <a href="@Url.Action("Create", "Users")" class="btn btn-success"><i class="fas fa-plus"></i></a>
+                            Usuarios
+                            @if (permisos["usuarios"]["crear"] == true)
+                            {
+                                <a href="@Url.Action("Create", "Users")" class="btn btn-success"><i
+                                        class="fas fa-plus"></i></a>
                             }
                         </h1>
                     </div>
-                    @if (permisos["roles-permisos"]["acceso"] == true){
+                    @if (permisos["roles-permisos"]["acceso"] == true)
+                    {
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="@Url.Action("Index", "Permissions")">Aquí</a></li>
@@ -54,6 +57,7 @@
                     .table-small-font td {
                         font-size: 12px;
                     }
+
                     .table-small-font th {
                         font-size: 12px;
                     }
@@ -75,39 +79,59 @@
                     <tbody>
                         @foreach (System.Data.DataRow row in Model.Rows)
                         {
-                        <tr>
-                            @* <td>@row["id"]</td> *@
-                            <td>@row["rut"]</td>
-                            <td>@row["nombre"] @row["apellidos"]</td>
-                            <td>
-                                <a href="tel:@row["telefono"]">@row["telefono"]</a>
-                            </td>
-                            <td>
-                                <a href="mailto:@row["email"]">@row["email"]</a>
-                            </td>
-                            <td>@row["rol"]</td>
-                            <td>
-                                @if (row["estado"].ToString() == "Activo"){
-                                    <span class="badge bg-success">@row["estado"]</span>
-                                }else{
-                                    <span class="badge bg-danger">@row["estado"]</span>
-                                }
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    @if (permisos["usuarios"]["editar"] == true){
-                                        <a href="@Url.Action("Edit", "Users", new { id = row["Id"] })" class="btn btn-info"><i class="fas fa-pen"></i></a>
+                            <tr>
+                                @* <td>@row["id"]</td> *@
+                                <td>@row["rut"]</td>
+                                <td>@row["nombre"] @row["apellidos"]</td>
+                                <td>
+                                    <a href="tel:@row["telefono"]">@row["telefono"]</a>
+                                </td>
+                                <td>
+                                    <a href="mailto:@row["email"]">@row["email"]</a>
+                                </td>
+                                <td>@row["rol"]</td>
+                                <td>
+                                    @if (row["estado"].ToString() == "Activo")
+                                    {
+                                        <span class="badge bg-success">@row["estado"]</span>
                                     }
-
-                                    @if (permisos["usuarios"]["eliminar"] == true){
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger" 
-                                            onclick="document.getElementById('userId').value = '@row["id"]'">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                    else if (row["estado"].ToString() == "Inactivo")
+                                    {
+                                        <span class="badge bg-secondary">@row["estado"]</span>
                                     }
-                                </div>
-                            </td>
-                        </tr>
+                                    else if (row["estado"].ToString() == "Eliminado")
+                                    {
+                                        <span class="badge bg-danger">@row["estado"]</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        @if (permisos["usuarios"]["editar"] == true && row["estado"].ToString() != "Eliminado")
+                                        {
+                                            <a href="@Url.Action("Edit", "Users", new { id = row["Id"] })"
+                                                class="btn btn-info"><i class="fas fa-pen"></i></a>
+                                        }
+                                        
+                                        @if (permisos["usuarios"]["eliminar"] == true && row["estado"].ToString() != "Eliminado")
+                                        {
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#modal-danger"
+                                                onclick="document.getElementById('DeleteUserId').value = '@row["id"]'">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        }
+                                        
+                                        @if (permisos["usuarios"]["restaurar"] == true && row["estado"].ToString() == "Eliminado")
+                                        {
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#modal-info"
+                                                onclick="document.getElementById('RestoreUserId').value = '@row["id"]'">
+                                                <i class="fas fa-undo"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                     <tfoot>
@@ -129,7 +153,8 @@
     </div>
 </div>
 
-<partial name="Partials/Modal-DeleteUser" model="Model"  />
+<partial name="Partials/Modal-DeleteUser" model="Model" />
+<partial name="Partials/Modal-RestoreUser" model="Model" />
 
 <!-- DataTables -->
 <link rel="stylesheet" href="~/public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">

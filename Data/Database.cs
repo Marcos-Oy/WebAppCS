@@ -35,14 +35,15 @@ namespace WebAppCS.Data
             }
         }
 
-        public void EjecutarComando(string query)
+        // ✅ Método modificado para retornar cantidad de filas afectadas
+        public int EjecutarComando(string query)
         {
             using (var conn = GetConnection())
             {
                 conn.Open();
                 using (var cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.ExecuteNonQuery();
+                    return cmd.ExecuteNonQuery(); // ← retorna cantidad de filas afectadas
                 }
             }
         }

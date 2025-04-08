@@ -4,7 +4,11 @@ $(document).ready(function () {
         $('input[name="permisos[' + modulo + '].Crear"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Crear"]').prop('checked') : false);
         $('input[name="permisos[' + modulo + '].Editar"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Editar"]').prop('checked') : false);
         $('input[name="permisos[' + modulo + '].Eliminar"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Eliminar"]').prop('checked') : false);
-        $('input[name="permisos[' + modulo + '].Desactivar"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Desactivar"]').prop('checked') : false);
+        $('input[name="permisos[' + modulo + '].Activar_Desactivar"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Activar_Desactivar"]').prop('checked') : false);
+        $('input[name="permisos[' + modulo + '].Restaurar"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Restaurar"]').prop('checked') : false);
+        $('input[name="permisos[' + modulo + '].Cambiar_Password"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Cambiar_Password"]').prop('checked') : false);
+
+
     }
 
     // Escucha los cambios de los checkboxes de acceso
