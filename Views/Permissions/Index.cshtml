@@ -66,6 +66,7 @@
                         <tr>
                             @* <th>ID</th> *@
                             <th>NOMBRE</th>
+                            <th>DESCRIPCIÓN</th>
                             <th>ACCIONES</th>
                         </tr>
                     </thead>
@@ -75,6 +76,7 @@
                         <tr>
                             @* <td>@row["id"]</td> *@
                             <td>@row["nombre"]</td>
+                            <td>@row["descripcion"]</td>
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     @if (permisos["roles-permisos"]["editar"] == true){
@@ -102,6 +104,7 @@
                         <tr>
                             @* <th>ID</th> *@
                             <th>NOMBRE</th>
+                            <th>DESCRIPCIÓN</th>
                             <th>ACCIONES</th>
                         </tr>
                     </tfoot>

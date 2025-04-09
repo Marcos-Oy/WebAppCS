@@ -32,35 +32,43 @@ namespace WebAppCS.Controllers
         [HttpPost]
         public IActionResult Insert(Roles model)
         {
-            // Generar un hash único para esta inserción
-            string rawData = model.Nombre + DateTime.Now.Ticks;
-            string hash = GenerateSha256Hash(rawData);
-
-            // Insertar el rol con el hash
-            string insertQuery = $"INSERT INTO Roles (Nombre, Hash) VALUES ('{model.Nombre}', '{hash}')";
-            _database.EjecutarComando(insertQuery);
-
-            // Buscar el ID usando el hash
-            string selectQuery = $"SELECT id FROM Roles WHERE Hash = '{hash}'";
-            DataTable resultTable = _database.EjecutarConsulta(selectQuery) as DataTable;
-
-            if (resultTable != null && resultTable.Rows.Count > 0)
+            if(model.Nombre != "root" && model.Nombre != "ROOT" && model.Nombre != "Root")
             {
-                int insertedId = Convert.ToInt32(resultTable.Rows[0][0]);
+                // Generar un hash único para esta inserción
+                string rawData = model.Nombre + DateTime.Now.Ticks;
+                string hash = GenerateSha256Hash(rawData);
 
-                string moduloUsuario = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 1)";
-                _database.EjecutarComando(moduloUsuario);
+                // Insertar el rol con el hash
+                string insertQuery = $"INSERT INTO Roles (Nombre, Descripcion, Hash) VALUES ('{model.Nombre}', '{model.Descripcion}', '{hash}');";
+                _database.EjecutarComando(insertQuery);
 
-                string moduloRoles = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 2)";
-                _database.EjecutarComando(moduloRoles);
+                // Buscar el ID usando el hash
+                string selectQuery = $"SELECT id FROM Roles WHERE Hash = '{hash}'";
+                DataTable resultTable = _database.EjecutarConsulta(selectQuery) as DataTable;
 
-                TempData["ToastrMessage"] = "Rol guardado correctamente";
-                TempData["ToastrType"] = "success"; // success | info | warning | error 
+                if (resultTable != null && resultTable.Rows.Count > 0)
+                {
+                    int insertedId = Convert.ToInt32(resultTable.Rows[0][0]);
+
+                    string moduloUsuario = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 1)";
+                    _database.EjecutarComando(moduloUsuario);
+
+                    string moduloRoles = $"INSERT INTO Permisos (id_rol, id_modulo) VALUES('{insertedId}', 2)";
+                    _database.EjecutarComando(moduloRoles);
+
+                    TempData["ToastrMessage"] = "Rol guardado correctamente";
+                    TempData["ToastrType"] = "success"; // success | info | warning | error 
+                }
+                else
+                {
+                    TempData["ToastrMessage"] = "Error al insertar el rol";
+                    TempData["ToastrType"] = "error"; // success | info | warning | error
+                }
             }
             else
             {
-                TempData["ToastrMessage"] = "Error al insertar el rol";
-                TempData["ToastrType"] = "error"; // success | info | warning | error
+                TempData["ToastrMessage"] = "No se puede insertar el rol 'root' ya que es un rol de sistema";
+                TempData["ToastrType"] = "warning"; // success | info | warning | error
             }
 
             return RedirectToAction("Index", "Permissions");
@@ -69,16 +77,24 @@ namespace WebAppCS.Controllers
         [HttpPost]
         public IActionResult UpdateRole(Roles model)
         {
-            if (!ModelState.IsValid) // Validar el modelo antes de proceder
+            if(model.Nombre != "root" && model.Nombre != "ROOT" && model.Nombre != "Root")
             {
-                return View("Index", model); // Regresa a la vista con los errores de validación
-            }
-            // Asegurar que el nombre esté entre comillas simples para evitar errores SQL
-            string query = $"UPDATE Roles SET nombre = '{model.Nombre}' WHERE Id = {model.Id}";
-            _database.EjecutarComando(query);
+                if (!ModelState.IsValid) // Validar el modelo antes de proceder
+                {
+                    return View("Index", model); // Regresa a la vista con los errores de validación
+                }
+                // Asegurar que el nombre esté entre comillas simples para evitar errores SQL
+                string query = $"UPDATE Roles SET nombre = '{model.Nombre}', descripcion = '{model.Descripcion}' WHERE Id = {model.Id}";
+                _database.EjecutarComando(query);
 
-            TempData["ToastrMessage"] = "Rol actualizado correctamente";
-            TempData["ToastrType"] = "success"; // success | info | warning | error 
+                TempData["ToastrMessage"] = "Rol actualizado correctamente";
+                TempData["ToastrType"] = "success"; // success | info | warning | error 
+            }
+            else
+            {
+                TempData["ToastrMessage"] = "No se puede actualizar el rol 'root' ya que es un rol de sistema";
+                TempData["ToastrType"] = "warning"; // success | info | warning | error
+            }
 
             return RedirectToAction("Index", "Permissions");
         }

@@ -11,8 +11,11 @@
             </div>
             <form id="createForm" method="post" action="@Url.Action("Insert", "Permissions")">
                 <div class="modal-body">
-                    <input type="text" id="rol" asp-for="Nombre" class="form-control" placeholder="Rol">
+                    <input type="text" id="rol" asp-for="Nombre" class="form-control" placeholder="Nombre del rol">
                     <span asp-validation-for="Nombre" class="text-danger"></span>
+                    <br>
+                    <textarea asp-for="Descripcion" class="form-control" placeholder="Descripción del rol"></textarea>
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
                 </div>
                 
                 <div class="modal-footer justify-content-between">

@@ -13,6 +13,9 @@
                 <div class="modal-body">
                     <input type="text" class="form-control" id="rol" asp-for="Nombre" placeholder="Rol" />
                     <span asp-validation-for="Nombre" class="text-danger"></span>
+                    <br>
+                    <textarea asp-for="Descripcion" class="form-control" placeholder="Descripción del rol"></textarea>
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
