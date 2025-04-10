@@ -97,7 +97,9 @@ namespace WebAppCS.Controllers
                         {"eliminar", reader.GetInt32("eliminar") == 1},
                         {"activar_desactivar", reader.GetInt32("activar_desactivar") == 1},
                         {"restaurar", reader.GetInt32("restaurar") == 1},
-                        {"cambiar_password", reader.GetInt32("cambiar_password") == 1}
+                        {"cambiar_password", reader.GetInt32("cambiar_password") == 1},
+                        {"migrar_rol", reader.GetInt32("migrar_rol") == 1}
+
                     };
                 }
             }

@@ -224,6 +224,24 @@
                                                     </div>
                                                 </div>
                                             }
+
+                                            @* Migrar Rol *@
+                                            
+                                            @if (row["modulo"].ToString() == "usuarios")
+                                            {
+                                                <div class="custom-switch-wrapper">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="migrar_rol_@row["modulo"]"
+                                                            name="permisos[@row["modulo"]].Migrar_Rol" value="true"
+                                                            @(Convert.ToBoolean(row["migrar_rol"]) ? "checked" : "") />
+                                                        <input type="hidden" name="permisos[@row["modulo"]].Migrar_Rol"
+                                                            value="false" />
+                                                        <label class="custom-control-label"
+                                                            for="migrar_rol_@row["modulo"]">Migrar Rol</label>
+                                                    </div>
+                                                </div>
+                                            }
                                             
                                         </div>
                                     </td>
