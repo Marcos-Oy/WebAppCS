@@ -7,7 +7,7 @@ $(document).ready(function () {
         $('input[name="permisos[' + modulo + '].Activar_Desactivar"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Activar_Desactivar"]').prop('checked') : false);
         $('input[name="permisos[' + modulo + '].Restaurar"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Restaurar"]').prop('checked') : false);
         $('input[name="permisos[' + modulo + '].Cambiar_Password"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Cambiar_Password"]').prop('checked') : false);
-
+        $('input[name="permisos[' + modulo + '].Migrar_Rol"]').prop('disabled', !isEnabled).prop('checked', isEnabled ? $('input[name="permisos[' + modulo + '].Migrar_Rol"]').prop('checked') : false);
 
     }
 

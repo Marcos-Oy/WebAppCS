@@ -176,6 +176,7 @@ namespace WebAppCS.Controllers
             ModelState.Remove("Password");
             ModelState.Remove("RepeatPassword");
             ModelState.Remove("Id_estado");
+            ModelState.Remove("Id_rol");
             ModelState.Remove("Rol");
             ModelState.Remove("Estado");
 
@@ -209,7 +210,7 @@ namespace WebAppCS.Controllers
             model.Email = model.Email.Replace(" ", "").ToLower();
 
             // Lógica para actualizar el usuario
-            string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}', Id_rol = {model.Id_rol} WHERE Id = {model.Id}";
+            string query = $"UPDATE Usuarios SET Rut = '{model.Rut}', Nombre = '{model.Nombre}', Apellidos = '{model.Apellidos}', Email = '{model.Email}', Telefono = '{model.Telefono}' WHERE Id = {model.Id}";
             _database.EjecutarComando(query);
 
             TempData["ToastrMessage"] = "Usuario actualizado correctamente";
@@ -252,7 +253,47 @@ namespace WebAppCS.Controllers
             string query = $"UPDATE Usuarios SET Id_estado = {model.Id_estado} WHERE Id = {model.Id}";
             _database.EjecutarComando(query);
 
-            TempData["ToastrMessage"] = "Usuario actualizado correctamente";
+            TempData["ToastrMessage"] = "Estado del usuario actualizado correctamente";
+            TempData["ToastrType"] = "success"; // success | info | warning | error 
+
+            return RedirectToAction("Index", "Users");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateRol(Usuarios model)
+        {
+            // Eliminar la contraseña de ModelState para evitar que se valide
+            ModelState.Remove("Rut");
+            ModelState.Remove("Nombre");
+            ModelState.Remove("Apellidos");
+            ModelState.Remove("Email"); 
+            ModelState.Remove("Telefono");
+            ModelState.Remove("Id_estado");
+            ModelState.Remove("Rol");
+            ModelState.Remove("Estado");
+            ModelState.Remove("Password");
+            ModelState.Remove("RepeatPassword");
+
+            if (!ModelState.IsValid)
+            {
+                // 🔍 Muestra los errores de validación en la consola/logs
+                foreach (var key in ModelState.Keys)
+                {
+                    var errors = ModelState[key].Errors;
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"Error en {key}: {error.ErrorMessage}");
+                    }
+                }
+
+                return RedirectToAction("Edit", new { id = model.Id });
+            }
+
+            // Lógica para actualizar el usuario
+            string query = $"UPDATE Usuarios SET Id_rol = {model.Id_rol} WHERE Id = {model.Id}";
+            _database.EjecutarComando(query);
+
+            TempData["ToastrMessage"] = "Rol del usuario actualizado correctamente";
             TempData["ToastrType"] = "success"; // success | info | warning | error 
 
             return RedirectToAction("Index", "Users");

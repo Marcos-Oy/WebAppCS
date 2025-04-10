@@ -178,7 +178,8 @@ namespace WebAppCS.Controllers
                         eliminar = {(permiso.Eliminar ? 1 : 0)},
                         activar_desactivar = {(permiso.Activar_Desactivar ? 1 : 0)},
                         restaurar = {(permiso.Restaurar ? 1 : 0)},
-                        cambiar_password = {(permiso.Cambiar_Password ? 1 : 0)}
+                        cambiar_password = {(permiso.Cambiar_Password ? 1 : 0)},
+                        migrar_rol = {(permiso.Migrar_Rol ? 1 : 0)}
                     WHERE id = {permiso.Id}";
 
                 try
