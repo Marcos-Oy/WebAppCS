@@ -82,6 +82,7 @@ CREATE TABLE `permisos` (
   `activar_desactivar` int NOT NULL DEFAULT '0',
   `restaurar` int NOT NULL DEFAULT '0',
   `cambiar_password` int NOT NULL DEFAULT '0',
+  `migrar_rol` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `permisos_roles_FK` (`id_rol`),
   KEY `permisos_modulos_FK` (`id_modulo`),
@@ -96,7 +97,7 @@ CREATE TABLE `permisos` (
 
 LOCK TABLES `permisos` WRITE;
 /*!40000 ALTER TABLE `permisos` DISABLE KEYS */;
-INSERT INTO `permisos` VALUES (22,1,1,1,1,1,1,1,1,1),(23,1,2,1,1,1,1,0,0,0),(25,2,1,1,0,0,0,0,0,0),(26,2,2,1,0,0,0,0,0,0),(34,0,1,1,1,1,1,1,1,0),(35,0,2,1,1,1,1,1,1,0),(36,26,1,1,1,1,0,1,0,0),(37,26,2,1,0,0,0,0,0,0);
+INSERT INTO `permisos` VALUES (22,1,1,1,1,1,1,1,1,1,1),(23,1,2,1,1,1,1,0,0,0,0),(25,2,1,1,0,0,0,0,0,0,0),(26,2,2,1,0,0,0,0,0,0,0),(34,0,1,1,1,1,1,1,1,1,1),(35,0,2,1,1,1,1,1,1,1,1),(36,26,1,1,1,1,0,1,0,0,0),(37,26,2,1,0,0,0,0,0,0,0);
 /*!40000 ALTER TABLE `permisos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,7 +158,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (0,'N/A','root','root','root@root.cl','N/A',0,1,'63a9f0ea7bb98050796b649e85481845'),(7,'13.358.133-2','Portilla Mellado','Cristian Rafael','cristian.portilla@webappcs.cl','+56981867091',1,1,'963037c8a4d289513a30295c860d009d'),(10,'19.303.424-1','Oyarzo Alvarez','Marcos Alberto','marcos.oyarzo@webappcs.cl','+56933279376',1,1,'963037c8a4d289513a30295c860d009d');
+INSERT INTO `usuarios` VALUES (0,'N/A','root','root','root@root.cl','N/A',0,1,'63a9f0ea7bb98050796b649e85481845'),(7,'13.358.133-2','Portilla Mellado','Cristian Rafael','cristian.portilla@webappcs.cl','+56981867091',1,1,'963037c8a4d289513a30295c860d009d'),(10,'19.303.424-1','Oyarzo Alvarez','Marcos Alberto','marcos.oyarzo@webappcs.cl','+56933279376',26,1,'963037c8a4d289513a30295c860d009d');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-09  0:07:07
+-- Dump completed on 2025-04-10 16:20:00
